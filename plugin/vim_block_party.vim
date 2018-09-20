@@ -11,7 +11,7 @@ endif
 function! s:SetupBlockParty()
 python << EOF
 from vim_block_party import environment
-environment.init()))
+environment.init()
 EOF
 endfunction
 
