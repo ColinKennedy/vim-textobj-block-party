@@ -13,9 +13,6 @@ endfunction
 
 call s:SetupBlockParty()
 
-" TODO : Make these functions in this script only
-
-
 call textobj#user#plugin('python', {
 \   'block-party-deep': {
 \     'select-a-function': 'vim_block_party#around_deep',
