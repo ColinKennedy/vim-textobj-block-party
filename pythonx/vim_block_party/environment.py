@@ -15,14 +15,14 @@ def _include_comments(block):
     try:
         return bool(int(vim.eval('g:vim_block_party_{block}include_comments'.format(block=block))))
     except Exception:
-        return False
+        return True
 
 
 def _include_whitespace(block):
     try:
         return bool(int(vim.eval('g:vim_block_party_{block}include_whitespace'.format(block=block))))
     except Exception:
-        return False
+        return True
 
 
 def _include_search(block):
@@ -34,13 +34,13 @@ def _include_search(block):
 
 def init():
     registry = {
-        'comments': _include_comments,
+        'comment': _include_comments,
         'search': _include_search,
         'whitespace': _include_whitespace,
     }
 
     blocks = (
-        'for'
+        'for',
         'if',
         'try',
         'while',
