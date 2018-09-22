@@ -30,4 +30,8 @@ call textobj#user#plugin('python', {
 \     'select-a-function': 'vim_block_party#around_shallow_two_way',
 \     'select-a': 'Ab',
 \   },
+\   'block-party-deep-two-way': {
+\     'select-a-function': 'vim_block_party#around_deep_two_way',
+\     'select-a': 'AB',
+\   },
 \ })
