@@ -62,6 +62,22 @@ EOF
 endfunction
 
 
+function! vim_block_party#around_shallow_two_way()
+    let l:block_party_temp_var = []
+
+python << EOF
+from vim_textobj_block_party import party
+party.around_shallow('l:block_party_temp_var', two_way=True)
+EOF
+
+    if l:block_party_temp_var == []
+        return 0
+    endif
+
+    return ['V', l:block_party_temp_var[0], l:block_party_temp_var[1]]
+endfunction
+
+
 function! vim_block_party#inside_shallow()
     let l:block_party_temp_var = []
 

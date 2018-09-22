@@ -16,18 +16,18 @@ call s:SetupBlockParty()
 call textobj#user#plugin('python', {
 \   'block-party-deep': {
 \     'select-a-function': 'vim_block_party#around_deep',
-\     'select-a': 'ab',
+\     'select-a': 'aB',
 \     'select-i-function': 'vim_block_party#inside_deep',
-\     'select-i': 'ib',
+\     'select-i': 'iB',
 \   },
 \   'block-party-shallow': {
 \     'select-a-function': 'vim_block_party#around_shallow',
-\     'select-a': 'aB',
+\     'select-a': 'ab',
 \     'select-i-function': 'vim_block_party#inside_shallow',
-\     'select-i': 'iB',
+\     'select-i': 'ib',
 \   },
 \   'block-party-two-way': {
-\     'select-a-function': 'vim_block_party#around_deep_two_way',
+\     'select-a-function': 'vim_block_party#around_shallow_two_way',
 \     'select-a': 'Ab',
 \   },
 \ })
