@@ -10,10 +10,15 @@ import vim
 from .block_party import party
 
 
-def _get_buffer_context(search=True, two_way=False, customize=True):
+def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize=True):
     '''Get the user's buffer and cursor and return a boundary.
 
     Args:
+        extra_lines (`bool`, optional):
+            If True, after a match is found, add any neighboring newlines to the boundary.
+            If False, leave the boundary alone.
+            This is useful if you want to delete whitespace around a block.
+            Default is False.
         search (`bool`, optional):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
@@ -41,6 +46,7 @@ def _get_buffer_context(search=True, two_way=False, customize=True):
         code,
         row,
         column,
+        extra_lines=extra_lines,
         search=search,
         two_way=two_way,
         customize=customize,
@@ -66,17 +72,23 @@ def _get_buffer_context(search=True, two_way=False, customize=True):
     ]
 
 
-def around_deep(key, search=True):
+def around_deep(key, search=True, two_way=False):
     '''Search for a boundary using the user's configuration before and after the block.
 
     Args:
+        key (str):
+            The temporary Vim variable that will be used to export our boundary.
         search (`bool`, optional):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
             Default is True.
+        two_way (`bool`, optional):
+            If True, search for whitespaces/comments/etc before and after the block.
+            If False, only search up.
+            Default is False.
 
     '''
-    boundary = _get_buffer_context(search=search, two_way=True)
+    boundary = _get_buffer_context(extra_lines=True, search=search, two_way=two_way)
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
 
 
@@ -84,6 +96,8 @@ def inside_deep(key, search=True):
     '''Search for a boundary using the user's configuration before the block.
 
     Args:
+        key (str):
+            The temporary Vim variable that will be used to export our boundary.
         search (`bool`, optional):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
@@ -94,17 +108,23 @@ def inside_deep(key, search=True):
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
 
 
-def around_shallow(key, search=True):
+def around_shallow(key, search=True, two_way=False):
     '''Search for a boundary before and after the block.
 
     Args:
+        key (str):
+            The temporary Vim variable that will be used to export our boundary.
         search (`bool`, optional):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
             Default is True.
+        two_way (`bool`, optional):
+            If True, search for whitespaces/comments/etc before and after the block.
+            If False, only search up.
+            Default is False.
 
     '''
-    boundary = _get_buffer_context(search=search, two_way=True, customize=False)
+    boundary = _get_buffer_context(extra_lines=True, search=search, two_way=two_way, customize=False)
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
 
 
@@ -112,6 +132,8 @@ def inside_shallow(key, search=True):
     '''Search for a boundary before the block.
 
     Args:
+        key (str):
+            The temporary Vim variable that will be used to export our boundary.
         search (`bool`, optional):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.

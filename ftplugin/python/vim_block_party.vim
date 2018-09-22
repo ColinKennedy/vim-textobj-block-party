@@ -26,16 +26,8 @@ call textobj#user#plugin('python', {
 \     'select-i-function': 'vim_block_party#inside_shallow',
 \     'select-i': 'iB',
 \   },
-\   'block-party-deep-no-search': {
-\     'select-a-function': 'vim_block_party#around_deep_no_search',
+\   'block-party-two-way': {
+\     'select-a-function': 'vim_block_party#around_deep_two_way',
 \     'select-a': 'Ab',
-\     'select-i-function': 'vim_block_party#inside_deep_no_search',
-\     'select-i': 'Ib',
-\   },
-\   'block-party-shallow-no-search': {
-\     'select-a-function': 'vim_block_party#around_shallow_no_search',
-\     'select-a': 'AB',
-\     'select-i-function': 'vim_block_party#inside_shallow_no_search',
-\     'select-i': 'IB',
 \   },
 \ })
