@@ -5,7 +5,7 @@ endif
 
 function! s:SetupBlockParty()
 python << EOF
-from vim_block_party import environment
+from vim_textobj_block_party import environment
 environment.init()
 EOF
 endfunction

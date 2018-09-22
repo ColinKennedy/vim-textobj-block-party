@@ -1,4 +1,3 @@
-- Rename this repo to 'vim-textobj-block-party'
 - Implement source-code line searching
 - Implement the "search disabled" mappings
 - Implement per-block config
