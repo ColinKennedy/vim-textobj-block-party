@@ -29,6 +29,22 @@ def _include_comment(block):
         return True
 
 
+def _include_greedy(block):
+    '''If the given block will search for identifiers inside of the block or outside.
+
+    Args:
+        block (str): The name of the block to check.
+
+    Returns:
+        bool: If True, search inside and outside. If False, search only outside.
+
+    '''
+    try:
+        return bool(int(vim.eval('g:vim_block_party_{block}greedy'.format(block=block))))
+    except Exception:
+        return False
+
+
 def _include_whitespace(block):
     '''If the given block has whitespace enabled for it.
 
@@ -69,6 +85,7 @@ def init():
     '''
     registry = {
         'comment': _include_comment,
+        'greedy': _include_greedy,
         'search': _include_search,
         'whitespace': _include_whitespace,
     }
