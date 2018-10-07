@@ -1,0 +1,338 @@
+*textobj-bloc-party.txt*	Text objects for blocks of Python code
+
+Version 1.0.0
+
+Copyright (C) 2018 Colin Kennedy <http://colinvfx.com/>
+
+License: So-called MIT/X license
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+CONTENTS                                    *textobj-block-party-contents*
+
+Introduction           			 |textobj-block-party-introduction|
+Interface              			 |textobj-block-party-interface|
+  Mappings             			 |textobj-block-party-mappings|
+  Extensions           			 |textobj-block-party-extensions|
+Customizing            			 |textobj-block-party-customizing|
+  Settings 						 |textobj-block-party-settings|
+  Adding Source-Code 			 |textobj-block-party-adding-source-code|
+Changelog              			 |textobj-block-party-changelog|
+
+
+==============================================================================
+INTRODUCTION					*textobj-block-party-introduction*
+
+*textobj-block-party* is a Vim plugin that helps users select blocks of Python code.
+
+For example, say you wanted to select only the try/except block below:
+(Note: ">" is the current line of the cursor)
+>
+    for index in range(10):
+
+        # This is an important function!
+        function = get_function_from_index(index)
+
+        try:
+            function()
+        except ValueError:
+            # some information here
+            # more comments and code etc. etc. etc.
+            #
+            LOGGER.info('exception')
+            >
+            more = 'stuff'
+
+        things = 'here'
+
+|<Plug>(textobj-block-party-shallow-i)| will select lines as follows:
+>
+    for index in range(10):
+
+        # This is an important function!
+        function = get_function_from_index(index)
+
+        |try:
+        |    function()
+        |except ValueError:
+        |    # some information here
+        |    # more comments and code etc. etc. etc.
+        |    #
+        |    LOGGER.info('exception')
+        |    >
+        |    more = 'stuff'
+
+        things = 'here'
+
+
+There are also a few commands that vary and change this behavior.
+Check out |textobj-block-party-mappings| for the full list of variants.
+
+Requirements:
+- Vim compiled with Python support
+- |textobj-user| 0.3.8 or later (vimscript#2100)
+
+Latest Version:
+https://github.com/ColinKennedy/vim-textobj-block-party
+
+
+==============================================================================
+INTERFACE					            *textobj-block-party-interface*
+
+------------------------------------------------------------------------------
+MAPPINGS					            *textobj-block-party-mappings*
+
+These key mappings are defined in Visual mode and Operator-pending mode.
+
+<Plug>(textobj-block-party-shallow-i)   *<Plug>(textobj-block-party-shallow-i)*
+    This is the simplest command that vim-textobj-block-party offers.
+    It selects the current block and only that block's contents.
+
+    It will not select neighboring whitespace, source-code, or comments.
+    As a result, it tends to select "as few lines as possible".
+
+<Plug>(textobj-block-party-shallow-a)   *<Plug>(textobj-block-party-shallow-a)*
+    Like |<Plug>(textobj-block-party-shallow-a)| but it searches for empty lines
+    above the current block and includes them in the selection.
+
+<Plug>(textobj-block-party-deep-i)      *<Plug>(textobj-block-party-deep-i)*
+	This command will select the code block and will also select whitespace,
+	source-code, and/or comments depending on your user settings.
+	See |textobj-block-party-customizing| for more details.
+
+<Plug>(textobj-block-party-deep-a)      *<Plug>(textobj-block-party-deep-i)*
+	Like |<Plug>(textobj-block-party-deep-i)| but it searches for empty lines
+	above the current block and includes them in the selection.
+
+<Plug>(textobj-block-party-deep-two-way-a) *<Plug>(textobj-block-party-deep-two-way-a)*
+    Like |<Plug>(textobj-block-party-deep-a)| but it searches for empty lines
+	both above the current block and below and includes them in the selection.
+
+<Plug>(textobj-block-party-two-way-a)   *<Plug>(textobj-block-party-two-way-a)*
+    Like |<Plug>(textobj-block-party-shallow-a)| but it searches for empty lines
+	both above the current block and below and includes them in the selection.
+
+These are the default that vim-textobj-block-party comes with:
+
++--------+--------------------------------------------+
+|  Keys  |                  Mapping                   |
++--------+--------------------------------------------+
+| ib     | <Plug>(textobj-block-party-shallow-i)      |
+| ab     | <Plug>(textobj-block-party-shallow-a)      |
+| iB     | <Plug>(textobj-block-party-deep-i)         |
+| aB     | <Plug>(textobj-block-party-deep-a)         |
+| Ab     | <Plug>(textobj-block-party-two-way-a)      |
+| AB     | <Plug>(textobj-block-party-deep-two-way-a) |
++--------+--------------------------------------------+
+
+Most of the time, assuming your configuration is set how you like it, you'll
+probably want to type mappings like "vab", or "vaB". "ib"/"iB" are there just
+in case you don't want to grab too much text at once.
+
+For a visual on what all of these mappings look like, see: *textobj-block-party-customizing*
+
+TODO: Write about how to override these mappings.
+
+
+------------------------------------------------------------------------------
+EXTENSIONS					            *textobj-block-party-extensions*
+
+If you bave [vim-repeat](https://github.com/tpope/vim-repeat) installed,
+vim-textobj-block-party will use it to make the mappings repeatable with the
+"." command. However, it if it is not installed, the mappings will work fine
+without it. You just won't be able to repeat them (and where's the fun in that?)
+
+
+==============================================================================
+CUSTOMIZING				                   	*textobj-block-party-customizing*
+
+The short explanation to customizing vim-textobj-block-party is that its
+defaults are going to suit you well. But if you want to fine-tune things a
+bit, read on.
+
+There are two factors that changes the way vim-textobj-block-party behaviors.
+There are the basic mappings which only select the current block and then
+another set of mappings (defined by user settings) which customize how
+vim-textobj-block-party selects text when you want more than just the current
+block.
+
+We'll go over both these things in detail right now as well as a couple common
+configurations for user settings.
+
+Default Configuration:
+
+>
+	import os
+														 		-+   -+
+														 		 |    |
+    # Some list of items 								 		 |    |
+    # Honestly it could say anything though. 			 		 |    |
+    # 													 		 |    |
+    items = ['foo', 'bar', 'end', 'start']               		 |    |
+													-+   -+   	 |    |
+													 |    |   	 |    |
+													 |    |   	 |    |
+    for item in items:                         -+    |    |   	 |    |
+        # Some information 						|    |    |   	 |    |
+        print('Item {}'.format(item))  			|    |    |   	 |    |
+												|    |    |   	 |    |
+        item += '.' 							|    |    |   	 |    |
+		> 										| ib | ab | Ab	 | aB | AB
+        if item == 'end.': 						|    |    |   	 |    |
+            break 								|    |    |   	 |    |
+												|    |    |   	 |    |
+    else: 										|    |    |   	 |    |
+        print('Break never executed')          -+   -+    |   	-+    |
+														  |           |
+														 -+          -+
+	more = 'code'
+
+Note:
+	i grabs the current block
+	a grabs the current block + the whitespace above it
+	A grabs the current block + the whitespace above and below it
+	B can grab source-code, additional whitespace, and/or comments
+
+Note:
+	Capitalized letters grab more lines than their lowercase counterparts.
+
+
+------------------------------------------------------------------------------
+SETTINGS 					 				  *textobj-block-party-settings*
+
+If you're reading this section, it means that you want to change how the "ab",
+"aB", and "AB" mappings function.
+
+vim-textobj-block-party comes with a number of vim global variables that let
+you change how comments, newlines, and source-code is found.
+
++--------------------------------------+---------+-----------------------------------------------------------------------------+
+|               Variable               | Default |                                 Description                                 |
++--------------------------------------+---------+-----------------------------------------------------------------------------+
+| g:vim_block_party_include_comments   | '1'     | Look for comments above the current block                                   |
+| g:vim_block_party_include_whitespace | '1'     | Look for whitespace                                                         |
+| g:vim_block_party_search             | '1'     | Look source-code that's related to the current block                        |
+| g:vim_block_party_greedy             | '0'     | If 0, only search for source-code which is part of the block's definition.  |
+|                                      |         | If 1, check the block's contents for related source-code, too.              |
++--------------------------------------+---------+-----------------------------------------------------------------------------+
+
+The above 4 variables will define settings for every block type. However if
+you want to define a search setting for a particular type of Python block, all
+you have to do is include the name of the block you want to edit.
+
+The example below will include comments while searching in for-loops but not
+in while-loops. It also includes whitespace for every block-type (because no
+block-type was specified):
+>
+	let g:vim_block_party_while_include_comments = '0'
+	let g:vim_block_party_for_include_comments = '1'
+	let g:vim_block_party_include_whitespace = '1'
+
+Available block types:
+>
+	for
+	if
+	try
+	while
+
+------------------------------------------------------------------------------
+ADDING SOURCE CODE 					*textobj-block-party-adding-source-code*
+
+When searching for source-code is enabled, vim-textobj-block-party will look
+above the block for lines which relate to the current block. For example, if
+you define a list and then use it in a for-loop, the list is considered "part"
+of the block even though it's not actually inside the loop.
+
+But how we consider source-code "part" of a block can be changed, using the
+g:vim_block_party_greedy environment variable.
+
+There's one last thing you should know about g:vim_block_party_greedy though.
+g:vim_block_party_greedy is set by default to off ("0") because it tends
+to grab more source-code than it should. But the option is there if you want it.
+
+let g:vim_block_party_greedy = '0'
+>
+    # Some list of items
+    # Honestly it could say anything though.
+    #
+    info = 'something'
+    |items = ['foo', 'bar', 'end', 'start']
+	|
+	|
+    |for item in items:
+    |    # Some information
+    |    print('Item {}'.format(item))
+    |    info = 'asdfd'
+	|    >
+    |    item += '.'
+	|
+    |    if item == 'end.':
+    |        break
+	|
+    |else:
+    |    print('Break never executed')
+
+
+
+let g:vim_block_party_greedy = '1'
+
+
+    |# Some list of items
+    |# Honestly it could say anything though.
+    |#
+    |info = 'something'
+    |items = ['foo', 'bar', 'end', 'start']
+	|
+	|
+    |for item in items:
+    |    # Some information
+    |    print('Item {}'.format(item))
+    |    info = 'asdfd'
+	|    >
+    |    item += '.'
+	|
+    |    if item == 'end.':
+    |        break
+	|
+    |else:
+    |    print('Break never executed')
+
+Notice that `let g:vim_block_party_greedy = '0'` stops scanning for code below
+the `info = 'something'` line because vim-textobj-block-party only "sees" these
+defined variables:
+
+`['items']`
+
+But with `let g:vim_block_party_greedy = '1'`, it sees:
+
+`['items', 'info']`
+
+so when the source-code scanner encounters `info = 'something'`, it keeps going
+because `info = 'asdfd'` is inside of the block.
+
+Like mentioned before, this feature tends not to be used but it's there if you
+want it.
+
+
+==============================================================================
+CHANGELOG				                   	*textobj-block-party-changelog*
+
+1.0.0        2018-10-03	                    *textobj-indent-changelog-1.0.0*
+             - Initial version.
+
