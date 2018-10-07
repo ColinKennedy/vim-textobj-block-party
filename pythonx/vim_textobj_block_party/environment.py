@@ -74,7 +74,7 @@ def _include_search(block):
     try:
         return bool(int(vim.eval('g:vim_block_party_{block}search'.format(block=block))))
     except Exception:
-        return False
+        return True
 
 
 def init():
