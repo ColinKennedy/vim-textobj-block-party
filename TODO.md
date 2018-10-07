@@ -1,5 +1,7 @@
 - Make the tool not require you to be on the exact indent for it to grab the
   current block!
+- Add functions and classes as "blocks"
+- Add `parso` directly to this plugin
 - Implement per-block config
 
 
