@@ -8,6 +8,7 @@ import vim
 
 # IMPORT LOCAL LIBRARIES
 from .block_party import party
+from . import columnwise
 
 
 def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize=True):
@@ -38,9 +39,13 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
             directly by Vim to create a text object and should not be messed with.
 
     '''
-    code = '\n'.join(vim.current.window.buffer)
+    lines = vim.current.window.buffer
+    code = '\n'.join(lines)
     row, column = vim.current.window.cursor
     row -= 1  # Get the current row, as a 0-based value
+
+    previous_lines = reversed(lines[:row])
+    column = max(column, columnwise.find_best_column(previous_lines))
 
     boundary = party.get_boundary(
         code,
