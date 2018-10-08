@@ -3,6 +3,7 @@
 - Add functions and classes as "blocks"
 - Add `parso` directly to this plugin
 - Implement per-block config
+- Warn the user if there's a SyntaxError using Vim echoerr
 
 
 ## Block searching needs improvement

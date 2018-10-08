@@ -18,6 +18,16 @@ Here's Block Party, in action:
 TODO: Put a GIF or asciinema here
 
 
+The same mapping works for every Python block type. As long as your cursor is
+positioned inside of the block, it will work!
+
+The full list of supported Python block types:
+
+	for
+	if
+	try
+	while
+
 Note: If the Python file being operated upon has a SyntaxError then the file
 cannot be parsed and block selection will fail.
 
@@ -45,6 +55,8 @@ it below looks like this:
 ```vim
 TODO
 ```
+
+However this plugin should work with any plugin manager.
 
 Manual Installation
 -------------------
