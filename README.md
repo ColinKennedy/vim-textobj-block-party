@@ -56,7 +56,8 @@ finally:
     LOGGER.info('Loggin stuff and what not')
 ```
 
-Alright, lets see if you can guess what you need to press to delete this block.
+Alright, lets see if you can guess what you need to press
+to delete this if-elif-else block.
 
 ```python
 if foo():
@@ -71,7 +72,7 @@ That's right! It's `dab` again!
 
 ![](http://pithytees.com/wp-content/uploads/2017/03/mmj-dab-bad-weed-wear-that-design.jpg)
 
-You'll be `dab`ing all day and night at Block Party!
+You'll be `dab`ing all day and night with Block Party!
 
 
 Usage
@@ -80,13 +81,13 @@ Usage
 - Open any Python file.
 - Position your cursor inside a Python block that you want to select (like an
   if statement, for example).
-- Press "vab"
+- Press `vab`
 - The block will now be selected!
-- Pressind "d" will delete the selected text. Or just use "dab", as a short-hand.
+- Pressing `d` will delete the selected text. Or just use `dab`, as a short-hand.
 
 Here's Block Party, in action:
 
-[![asciicast](https://asciinema.org/a/202550.png)](https://asciinema.org/a/202550)
+[![asciicast](https://asciinema.org/a/206550.png)](https://asciinema.org/a/206550)
 
 The full list of supported Python block types:
 
@@ -156,10 +157,38 @@ Block party exposes the following mappings
     | AB     | <Plug>(textobj-block-party-deep-two-way-a) |
     +--------+--------------------------------------------+
 
+Each mapping does slightly different things. The diagram below should give a
+good idea of each mapping's properties.
 
-The ab, aB, Ab, and AB mappings can have slightly different results, depending
-on your set configuration. See the [docs page](/doc/textobj-block-party.txt)
-for more details.
+    import os
+                                                                -+   -+
+                                                                 |    |
+    # Some list of items                                         |    |
+    # Honestly it could say anything though.                     |    |
+    #                                                            |    |
+    items = ['foo', 'bar', 'end', 'start']                       |    |
+                                                    -+   -+      |    |
+                                                     |    |      |    |
+                                                     |    |      |    |
+    for item in items:                         -+    |    |      |    |
+        # Some information                      |    |    |      |    |
+        print('Item {}'.format(item))           |    |    |      |    |
+                                                |    |    |      |    |
+        item += '.'                             |    |    |      |    |
+        >                                       | ib | ab | Ab   | aB | AB
+        if item == 'end.':                      |    |    |      |    |
+            break                               |    |    |      |    |
+                                                |    |    |      |    |
+    else:                                       |    |    |      |    |
+        print('Break never executed')          -+   -+    |     -+    |
+                                                          |           |
+                                                         -+          -+
+    more = 'code'
+
+
+Please note that `ab`, `aB`, `Ab`, and `AB` mappings have slightly different
+results, depending on your set configuration. See the
+[docs page](/doc/textobj-block-party.txt) for more details about that.
 
     +--------------------------------------+---------+-----------------------------+
     |               Variable               | Default |         Description         |
