@@ -150,7 +150,7 @@ Move the files to their respective folders in your `~/.vim` directory
 Customizations
 --------------
 
-Block party exposes the following mappings
+Block Party exposes the following mappings
 
     +--------+--------------------------------------------+
     |  Keys  |                  Mapping                   |
