@@ -68,6 +68,7 @@ else:
 ```
 
 That's right! It's `dab` again!
+
 ![](http://pithytees.com/wp-content/uploads/2017/03/mmj-dab-bad-weed-wear-that-design.jpg)
 
 You'll be `dab`ing all day and night at Block Party!
@@ -144,34 +145,34 @@ Customizations
 
 Block party exposes the following mappings
 
-+--------+--------------------------------------------+
-|  Keys  |                  Mapping                   |
-+--------+--------------------------------------------+
-| ib     | <Plug>(textobj-block-party-shallow-i)      |
-| ab     | <Plug>(textobj-block-party-shallow-a)      |
-| iB     | <Plug>(textobj-block-party-deep-i)         |
-| aB     | <Plug>(textobj-block-party-deep-a)         |
-| Ab     | <Plug>(textobj-block-party-two-way-a)      |
-| AB     | <Plug>(textobj-block-party-deep-two-way-a) |
-+--------+--------------------------------------------+
+	+--------+--------------------------------------------+
+	|  Keys  |                  Mapping                   |
+	+--------+--------------------------------------------+
+	| ib     | <Plug>(textobj-block-party-shallow-i)      |
+	| ab     | <Plug>(textobj-block-party-shallow-a)      |
+	| iB     | <Plug>(textobj-block-party-deep-i)         |
+	| aB     | <Plug>(textobj-block-party-deep-a)         |
+	| Ab     | <Plug>(textobj-block-party-two-way-a)      |
+	| AB     | <Plug>(textobj-block-party-deep-two-way-a) |
+	+--------+--------------------------------------------+
 
 
 The ab, aB, Ab, and AB mappings can have slightly different results, depending
-on your set configuration. See docs [docs](/doc/textobj-block-party.txt)
+on your set configuration. See the [docs page](/doc/textobj-block-party.txt)
 for more details.
 
-+--------------------------------------+---------+-----------------------------+
-|               Variable               | Default |         Description         |
-+--------------------------------------+---------+-----------------------------+
-| g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
-|                                      |         | the current block           |
-|                                      |         |                             |
-| g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
-|                                      |         |                             |
-| g:vim_block_party_search             |   '1'   | Look for source-code that's |
-|                                      |         | related to the block        |
-|                                      |         |                             |
-| g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
-|                                      |         | If 1 search the block's     |
-|                                      |         | contents for source-code    |
-+--------------------------------------+---------+-----------------------------+
+	+--------------------------------------+---------+-----------------------------+
+	|               Variable               | Default |         Description         |
+	+--------------------------------------+---------+-----------------------------+
+	| g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
+	|                                      |         | the current block           |
+	|                                      |         |                             |
+	| g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
+	|                                      |         |                             |
+	| g:vim_block_party_search             |   '1'   | Look for source-code that's |
+	|                                      |         | related to the block        |
+	|                                      |         |                             |
+	| g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
+	|                                      |         | If 1 search the block's     |
+	|                                      |         | contents for source-code    |
+	+--------------------------------------+---------+-----------------------------+
