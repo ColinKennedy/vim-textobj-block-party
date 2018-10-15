@@ -147,8 +147,6 @@ in case you don't want to grab too much text at once.
 
 For a visual on what all of these mappings look like, see: *textobj-block-party-customizing*
 
-TODO: Write about how to override these mappings.
-
 
 ------------------------------------------------------------------------------
 EXTENSIONS                                    *textobj-block-party-extensions*
