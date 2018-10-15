@@ -103,9 +103,15 @@ cannot be parsed and block selection will fail.
 Requirements
 ------------
 
-* [textobj-user][1] Vim plugin, at least version AUTHORNOTE which version?
+* [parso][1] A Python parser which is the main work-horse of this plugin
+* [textobj-user][2] A Vim plugin which creates our mappings
 
-[1]: https://github.com/kana/vim-textobj-user
+[1]: https://pypi.org/project/parso
+[2]: https://github.com/kana/vim-textobj-user
+
+Note:
+    If no parso can be found, Block Party will try to provide its own. But
+    it's better to just install parso, properly.
 
 
 Installation
