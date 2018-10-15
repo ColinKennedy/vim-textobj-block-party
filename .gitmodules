@@ -1,3 +1,0 @@
-[submodule "block_party"]
-	path = pythonx/vim_textobj_block_party/block_party
-	url = https://korinkite@bitbucket.org/korinkite/block_party.git
