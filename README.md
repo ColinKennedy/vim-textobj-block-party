@@ -1,9 +1,11 @@
 textobj-block-party
 ===================
 
-Vim has many tools for Python. There are text objects for indentation, classes,
-functions, and more. But have you ever wanted to delete an try/except block in
-Python and found it difficult? If so, Block Party is hear to help!
+Vim has many tools for Python development. There are text objects for basically
+everything - indentation, classes, functions, and more.
+
+But have you ever wanted to delete a try/except block in Python or another type
+of block and found it difficult? If so, Block Party is hear to help!
 
 Usage
 -----
