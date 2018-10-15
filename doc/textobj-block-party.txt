@@ -261,16 +261,16 @@ Available block types:
 ADDING SOURCE CODE                    *textobj-block-party-adding-source-code*
 
 When searching for source-code is enabled, vim-textobj-block-party will look
-above the block for lines which relate to the current block. For example, if
-you define a list and then use it in a for-loop, the list is considered "part"
-of the block even though it's not actually inside the loop.
+above the current block for lines of source-code which relate to it. For example,
+if you define a list and then iterate over that list in a for-loop, the list is
+considered "part" of the block.
 
-But how we consider source-code "part" of a block can be changed, using the
-g:vim_block_party_greedy environment variable.
+You'll notice though that if you define or change a variable inside of a block
+that those lines are not considered part the block. But we can force it to be
+by enabling the g:vim_block_party_greedy environment variable.
 
-There's one last thing you should know about g:vim_block_party_greedy though.
-g:vim_block_party_greedy is set by default to off ("0") because it tends
-to grab more source-code than it should. But the option is there if you want it.
+g:vim_block_party_greedy is set to "0" by default because it tends to grab too
+more source-code than it should. But the option is there if you want it.
 
 let g:vim_block_party_greedy = '0'
 >
@@ -333,7 +333,7 @@ so when the source-code scanner encounters `info = 'something'`, it keeps going
 because `info = 'asdfd'` is inside of the block.
 
 Like mentioned before, this feature tends not to be used but it's there if you
-want it.
+want to enable it.
 
 
 ==============================================================================
