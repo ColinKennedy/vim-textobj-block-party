@@ -24,20 +24,20 @@ License: So-called MIT/X license
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CONTENTS                                    *textobj-block-party-contents*
+CONTENTS                                        *textobj-block-party-contents*
 
-Introduction           			 |textobj-block-party-introduction|
-Interface              			 |textobj-block-party-interface|
-  Mappings             			 |textobj-block-party-mappings|
-  Extensions           			 |textobj-block-party-extensions|
-Customizing            			 |textobj-block-party-customizing|
-  Settings 						 |textobj-block-party-settings|
-  Adding Source-Code 			 |textobj-block-party-adding-source-code|
-Changelog              			 |textobj-block-party-changelog|
+Introduction                          |textobj-block-party-introduction|
+Interface                             |textobj-block-party-interface|
+  Mappings                            |textobj-block-party-mappings|
+  Extensions                          |textobj-block-party-extensions|
+Customizing                           |textobj-block-party-customizing|
+  Settings                            |textobj-block-party-settings|
+  Adding Source-Code                  |textobj-block-party-adding-source-code|
+Changelog                             |textobj-block-party-changelog|
 
 
 ==============================================================================
-INTRODUCTION					*textobj-block-party-introduction*
+INTRODUCTION                                *textobj-block-party-introduction*
 
 *textobj-block-party* is a Vim plugin that helps users select blocks of Python code.
 
@@ -93,10 +93,10 @@ https://github.com/ColinKennedy/vim-textobj-block-party
 
 
 ==============================================================================
-INTERFACE					            *textobj-block-party-interface*
+INTERFACE                                      *textobj-block-party-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					            *textobj-block-party-mappings*
+MAPPINGS                                        *textobj-block-party-mappings*
 
 These key mappings are defined in Visual mode and Operator-pending mode.
 
@@ -151,7 +151,7 @@ TODO: Write about how to override these mappings.
 
 
 ------------------------------------------------------------------------------
-EXTENSIONS					            *textobj-block-party-extensions*
+EXTENSIONS	                                  *textobj-block-party-extensions*
 
 If you bave [vim-repeat](https://github.com/tpope/vim-repeat) installed,
 vim-textobj-block-party will use it to make the mappings repeatable with the
@@ -160,7 +160,7 @@ without it. You just won't be able to repeat them (and where's the fun in that?)
 
 
 ==============================================================================
-CUSTOMIZING				                   	*textobj-block-party-customizing*
+CUSTOMIZING	                                 *textobj-block-party-customizing*
 
 The short explanation to customizing vim-textobj-block-party is that its
 defaults are going to suit you well. But if you want to fine-tune things a
@@ -178,30 +178,30 @@ configurations for user settings.
 Default Configuration:
 
 >
-	import os
-														 		-+   -+
-														 		 |    |
+    import os
+                                                                -+   -+
+                                                                 |    |
     # Some list of items 								 		 |    |
     # Honestly it could say anything though. 			 		 |    |
     # 													 		 |    |
     items = ['foo', 'bar', 'end', 'start']               		 |    |
-													-+   -+   	 |    |
-													 |    |   	 |    |
-													 |    |   	 |    |
+    												-+   -+   	 |    |
+    												 |    |   	 |    |
+    												 |    |   	 |    |
     for item in items:                         -+    |    |   	 |    |
         # Some information 						|    |    |   	 |    |
         print('Item {}'.format(item))  			|    |    |   	 |    |
-												|    |    |   	 |    |
+    											|    |    |   	 |    |
         item += '.' 							|    |    |   	 |    |
-		> 										| ib | ab | Ab	 | aB | AB
+    	> 										| ib | ab | Ab	 | aB | AB
         if item == 'end.': 						|    |    |   	 |    |
             break 								|    |    |   	 |    |
-												|    |    |   	 |    |
+    											|    |    |   	 |    |
     else: 										|    |    |   	 |    |
         print('Break never executed')          -+   -+    |   	-+    |
-														  |           |
-														 -+          -+
-	more = 'code'
+    													  |           |
+    													 -+          -+
+    more = 'code'
 
 Note:
 	i grabs the current block
@@ -214,7 +214,7 @@ Note:
 
 
 ------------------------------------------------------------------------------
-SETTINGS 					 				  *textobj-block-party-settings*
+SETTINGS 					 				    *textobj-block-party-settings*
 
 If you're reading this section, it means that you want to change how the "ab",
 "aB", and "AB" mappings function.
@@ -222,15 +222,21 @@ If you're reading this section, it means that you want to change how the "ab",
 vim-textobj-block-party comes with a number of vim global variables that let
 you change how comments, newlines, and source-code is found.
 
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
-|               Variable               | Default |                                 Description                                 |
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
-| g:vim_block_party_include_comments   | '1'     | Look for comments above the current block                                   |
-| g:vim_block_party_include_whitespace | '1'     | Look for whitespace                                                         |
-| g:vim_block_party_search             | '1'     | Look source-code that's related to the current block                        |
-| g:vim_block_party_greedy             | '0'     | If 0, only search for source-code which is part of the block's definition.  |
-|                                      |         | If 1, check the block's contents for related source-code, too.              |
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
++--------------------------------------+---------+-----------------------------+
+|               Variable               | Default |         Description         |
++--------------------------------------+---------+-----------------------------+
+| g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
+|                                      |         | the current block           |
+|                                      |         |                             |
+| g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
+|                                      |         |                             |
+| g:vim_block_party_search             |   '1'   | Look for source-code that's |
+|                                      |         | related to the block        |
+|                                      |         |                             |
+| g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
+|                                      |         | If 1 search the block's     |
+|                                      |         | contents for source-code    |
++--------------------------------------+---------+-----------------------------+
 
 The above 4 variables will define settings for every block type. However if
 you want to define a search setting for a particular type of Python block, all
@@ -252,7 +258,7 @@ Available block types:
 	while
 
 ------------------------------------------------------------------------------
-ADDING SOURCE CODE 					*textobj-block-party-adding-source-code*
+ADDING SOURCE CODE                    *textobj-block-party-adding-source-code*
 
 When searching for source-code is enabled, vim-textobj-block-party will look
 above the block for lines which relate to the current block. For example, if
@@ -331,8 +337,8 @@ want it.
 
 
 ==============================================================================
-CHANGELOG				                   	*textobj-block-party-changelog*
+CHANGELOG                                      *textobj-block-party-changelog*
 
-1.0.0        2018-10-03	                    *textobj-indent-changelog-1.0.0*
+1.0.0        2018-10-03	                      *textobj-indent-changelog-1.0.0*
              - Initial version.
 
