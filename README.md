@@ -10,14 +10,14 @@ Using Block Party, to delete this block of code, you only need to type `dab`.
 
 ```python
 for index in range(10):
-	if index in self.thing:
-		print('breaking')
+    if index in self.thing:
+        print('breaking')
 
-		run_something()
+        run_something()
 
-		break
+        break
 else:
-	print('Did not break')
+    print('Did not break')
 ```
 
 To delete the next block, you still only have to type `dab`.
@@ -25,46 +25,46 @@ To delete the next block, you still only have to type `dab`.
 
 ```python
 while True:
-	print('doing stuff')
+    print('doing stuff')
 
-	time.sleep(1)
+    time.sleep(1)
 ```
 
-How about this try/except/else/finally block? Still just `dab`!
+How about this try/except/else/finally block? Still `dab`!
 
 
 ```python
 try:
-	some_function()
+    some_function()
 
-	self.foo = 8
+    self.foo = 8
 except ValueError:
-	# Don't worry about it
-	pass
+    # Don't worry about it
+    pass
 except TypeError:
-	# You ain't my type!
+    # You ain't my type!
 
-	pass
+    pass
 else:
-	print('you get the point')
+    print('you get the point')
 
-	print('the block is complicated')
+    print('the block is complicated')
 finally:
 
 
 
-	LOGGER.info('Loggin stuff and what not')
+    LOGGER.info('Loggin stuff and what not')
 ```
 
 Alright, lets see if you can guess what you need to press to delete this block.
 
 ```python
 if foo():
-	print('Got foo')
+    print('Got foo')
 elif bar():
-	print('Got bar')
+    print('Got bar')
 else:
-	print('Game over man! Game over!')
+    print('Game over man! Game over!')
 ```
 
 That's right! It's `dab` again!
@@ -90,10 +90,10 @@ Here's Block Party, in action:
 
 The full list of supported Python block types:
 
-	for
-	if
-	try
-	while
+    for
+    if
+    try
+    while
 
 Note: If the Python file being operated upon has a SyntaxError then the file
 cannot be parsed and block selection will fail.
@@ -145,34 +145,34 @@ Customizations
 
 Block party exposes the following mappings
 
-	+--------+--------------------------------------------+
-	|  Keys  |                  Mapping                   |
-	+--------+--------------------------------------------+
-	| ib     | <Plug>(textobj-block-party-shallow-i)      |
-	| ab     | <Plug>(textobj-block-party-shallow-a)      |
-	| iB     | <Plug>(textobj-block-party-deep-i)         |
-	| aB     | <Plug>(textobj-block-party-deep-a)         |
-	| Ab     | <Plug>(textobj-block-party-two-way-a)      |
-	| AB     | <Plug>(textobj-block-party-deep-two-way-a) |
-	+--------+--------------------------------------------+
+    +--------+--------------------------------------------+
+    |  Keys  |                  Mapping                   |
+    +--------+--------------------------------------------+
+    | ib     | <Plug>(textobj-block-party-shallow-i)      |
+    | ab     | <Plug>(textobj-block-party-shallow-a)      |
+    | iB     | <Plug>(textobj-block-party-deep-i)         |
+    | aB     | <Plug>(textobj-block-party-deep-a)         |
+    | Ab     | <Plug>(textobj-block-party-two-way-a)      |
+    | AB     | <Plug>(textobj-block-party-deep-two-way-a) |
+    +--------+--------------------------------------------+
 
 
 The ab, aB, Ab, and AB mappings can have slightly different results, depending
 on your set configuration. See the [docs page](/doc/textobj-block-party.txt)
 for more details.
 
-	+--------------------------------------+---------+-----------------------------+
-	|               Variable               | Default |         Description         |
-	+--------------------------------------+---------+-----------------------------+
-	| g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
-	|                                      |         | the current block           |
-	|                                      |         |                             |
-	| g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
-	|                                      |         |                             |
-	| g:vim_block_party_search             |   '1'   | Look for source-code that's |
-	|                                      |         | related to the block        |
-	|                                      |         |                             |
-	| g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
-	|                                      |         | If 1 search the block's     |
-	|                                      |         | contents for source-code    |
-	+--------------------------------------+---------+-----------------------------+
+    +--------------------------------------+---------+-----------------------------+
+    |               Variable               | Default |         Description         |
+    +--------------------------------------+---------+-----------------------------+
+    | g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
+    |                                      |         | the current block           |
+    |                                      |         |                             |
+    | g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
+    |                                      |         |                             |
+    | g:vim_block_party_search             |   '1'   | Look for source-code that's |
+    |                                      |         | related to the block        |
+    |                                      |         |                             |
+    | g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
+    |                                      |         | If 1 search the block's     |
+    |                                      |         | contents for source-code    |
+    +--------------------------------------+---------+-----------------------------+
