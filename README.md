@@ -3,9 +3,9 @@ textobj-block-party
 
 Vim has many tools for Python. There are text objects for indentation, classes,
 functions, and more. But have you ever wanted to delete an try/except block in
-Python and found it difficult? If so, Block Party is hear to help!
+Python and found it difficult? If so, Block Party is here to help!
 
-Using Block Party, to delete this block of code, you only need to type `dab`.
+Using Block Party, to delete this block of code, you just need to type `dab`.
 
 
 ```python
@@ -56,8 +56,8 @@ finally:
     LOGGER.info('Loggin stuff and what not')
 ```
 
-Alright, lets see if you can guess what you need to press
-to delete this if-elif-else block.
+Alright, lets see if you can guess what you need to type to delete
+this if-elif-else block.
 
 ```python
 if foo():
@@ -81,7 +81,7 @@ Usage
 - Open any Python file.
 - Position your cursor inside a Python block that you want to select (like an
   if statement, for example).
-- Press `vab`
+- Type `vab`
 - The block will now be selected!
 - Pressing `d` will delete the selected text. Or just use `dab`, as a short-hand.
 
