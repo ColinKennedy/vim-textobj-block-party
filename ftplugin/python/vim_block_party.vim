@@ -35,3 +35,27 @@ call textobj#user#plugin('python', {
 \     'select-a': 'AB',
 \   },
 \ })
+
+
+function! s:BlockPartyPrintEnvironment()
+    let l:message = "Block Party Version: 1.0.0\n"
+
+    let l:message .= "let g:vim_block_party_greedy = '"
+        \ . get(g:, 'vim_block_party_greedy', '0') . "'\n"
+
+    let l:message .= "let g:vim_block_party_include_comments = '"
+        \ . get(g:, 'vim_block_party_include_comments', '1') . "'\n"
+
+    let l:message .= "let g:vim_block_party_include_search = '"
+        \ . get(g:, 'vim_block_party_include_search', '1') . "'\n"
+
+    let l:message .= "let g:vim_block_party_include_whitespace = '"
+        \ . get(g:, 'vim_block_party_include_whitespace', '1') . "'"
+
+    echo l:message
+endfunction
+
+command! -buffer BlockPartyDebug call s:BlockPartyPrintEnvironment()
+
+
+let g:block_party_loaded = '1'

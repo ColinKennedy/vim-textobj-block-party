@@ -211,3 +211,53 @@ results, depending on your set configuration. See the
     |                                      |         | If 1 search the block's     |
     |                                      |         | contents for source-code    |
     +--------------------------------------+---------+-----------------------------+
+
+
+## Feature Request And Bug Reports
+Feature requests and bug fixes should both follow the same format:
+
+If the post is related to how blocks are selected or deleted and is a bug,
+for example, it's best to post a block of code and show where the block
+selection starts and ends and then show where you expected that block to
+start and end. Then explain why you think it's an error.
+
+Please use `|start|` to make the start of a block, `|cursor|` to make where the
+user's cursor would be, and `|end|` for where the block ends.
+
+Finally, run `BlockPartyDebug` in your Vim session and add its output to the post.
+
+This is an example bug report:
+
+    Hi,
+
+    Block Party isn't working properly with this block of code:
+
+    What I expected:
+
+        def foo():
+            |start|for _ in range(10):
+                # Some comment here
+                |cursor|
+                pass|end|
+
+
+    What actually happened:
+
+        def foo():
+            for _ in range(10):
+                |start|# Some comment here
+                |cursor|
+                pass|end|
+
+    BlockPartyDebug Output:
+
+        Block Party Version: 1.0.0
+        let g:vim_block_party_include_comments = '1'
+        let g:vim_block_party_include_whitespace = '1'
+        let g:vim_block_party_search = '1'
+        let g:vim_block_party_greedy = '0'
+
+
+## Contributing
+If you have improvements that you'd like to add, please feel free to fork this
+repo, and submit a PR with your edits. Contributions are welcome!
