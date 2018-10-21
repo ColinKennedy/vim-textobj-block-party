@@ -20,7 +20,7 @@ else:
     print('Did not break')
 ```
 
-To delete the next block, you still only have to type `dab`.
+To delete the next block, you type `dab`.
 
 
 ```python
@@ -72,7 +72,7 @@ That's right! It's `dab` again!
 
 ![](http://pithytees.com/wp-content/uploads/2017/03/mmj-dab-bad-weed-wear-that-design.jpg)
 
-You'll be `dab`ing all day and night with Block Party!
+You'll be `dab`ing all day and night at the Block Party!
 
 
 Usage
