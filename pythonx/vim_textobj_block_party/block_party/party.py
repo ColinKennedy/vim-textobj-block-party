@@ -14,8 +14,13 @@ import keyword
 import re
 
 # IMPORT THIRD-PARTY LIBRARIES
-from parso.python import tree
-import parso
+try:
+    from parso.python import tree
+    import parso
+except ImportError:
+    # Use the provided parso library if the user doesn't have it installed.
+    from .vendors.parso.python import tree
+    from .vendors import parso
 
 # IMPORT LOCAL LIBRARIES
 from . import config

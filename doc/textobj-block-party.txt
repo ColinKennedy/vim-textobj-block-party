@@ -1,4 +1,4 @@
-*textobj-bloc-party.txt*	Text objects for blocks of Python code
+*textobj-bloc-party.txt*    Text objects for blocks of Python code
 
 Version 1.0.0
 
@@ -24,20 +24,20 @@ License: So-called MIT/X license
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-CONTENTS                                    *textobj-block-party-contents*
+CONTENTS                                        *textobj-block-party-contents*
 
-Introduction           			 |textobj-block-party-introduction|
-Interface              			 |textobj-block-party-interface|
-  Mappings             			 |textobj-block-party-mappings|
-  Extensions           			 |textobj-block-party-extensions|
-Customizing            			 |textobj-block-party-customizing|
-  Settings 						 |textobj-block-party-settings|
-  Adding Source-Code 			 |textobj-block-party-adding-source-code|
-Changelog              			 |textobj-block-party-changelog|
+Introduction                          |textobj-block-party-introduction|
+Interface                             |textobj-block-party-interface|
+  Mappings                            |textobj-block-party-mappings|
+  Extensions                          |textobj-block-party-extensions|
+Customizing                           |textobj-block-party-customizing|
+  Settings                            |textobj-block-party-settings|
+  Adding Source-Code                  |textobj-block-party-adding-source-code|
+Changelog                             |textobj-block-party-changelog|
 
 
 ==============================================================================
-INTRODUCTION					*textobj-block-party-introduction*
+INTRODUCTION                                *textobj-block-party-introduction*
 
 *textobj-block-party* is a Vim plugin that helps users select blocks of Python code.
 
@@ -93,10 +93,10 @@ https://github.com/ColinKennedy/vim-textobj-block-party
 
 
 ==============================================================================
-INTERFACE					            *textobj-block-party-interface*
+INTERFACE                                      *textobj-block-party-interface*
 
 ------------------------------------------------------------------------------
-MAPPINGS					            *textobj-block-party-mappings*
+MAPPINGS                                        *textobj-block-party-mappings*
 
 These key mappings are defined in Visual mode and Operator-pending mode.
 
@@ -112,21 +112,21 @@ These key mappings are defined in Visual mode and Operator-pending mode.
     above the current block and includes them in the selection.
 
 <Plug>(textobj-block-party-deep-i)      *<Plug>(textobj-block-party-deep-i)*
-	This command will select the code block and will also select whitespace,
-	source-code, and/or comments depending on your user settings.
-	See |textobj-block-party-customizing| for more details.
+    This command will select the code block and will also select whitespace,
+    source-code, and/or comments depending on your user settings.
+    See |textobj-block-party-customizing| for more details.
 
 <Plug>(textobj-block-party-deep-a)      *<Plug>(textobj-block-party-deep-i)*
-	Like |<Plug>(textobj-block-party-deep-i)| but it searches for empty lines
-	above the current block and includes them in the selection.
+    Like |<Plug>(textobj-block-party-deep-i)| but it searches for empty lines
+    above the current block and includes them in the selection.
 
 <Plug>(textobj-block-party-deep-two-way-a) *<Plug>(textobj-block-party-deep-two-way-a)*
     Like |<Plug>(textobj-block-party-deep-a)| but it searches for empty lines
-	both above the current block and below and includes them in the selection.
+    both above the current block and below and includes them in the selection.
 
 <Plug>(textobj-block-party-two-way-a)   *<Plug>(textobj-block-party-two-way-a)*
     Like |<Plug>(textobj-block-party-shallow-a)| but it searches for empty lines
-	both above the current block and below and includes them in the selection.
+    both above the current block and below and includes them in the selection.
 
 These are the default that vim-textobj-block-party comes with:
 
@@ -147,11 +147,9 @@ in case you don't want to grab too much text at once.
 
 For a visual on what all of these mappings look like, see: *textobj-block-party-customizing*
 
-TODO: Write about how to override these mappings.
-
 
 ------------------------------------------------------------------------------
-EXTENSIONS					            *textobj-block-party-extensions*
+EXTENSIONS                                    *textobj-block-party-extensions*
 
 If you bave [vim-repeat](https://github.com/tpope/vim-repeat) installed,
 vim-textobj-block-party will use it to make the mappings repeatable with the
@@ -160,7 +158,7 @@ without it. You just won't be able to repeat them (and where's the fun in that?)
 
 
 ==============================================================================
-CUSTOMIZING				                   	*textobj-block-party-customizing*
+CUSTOMIZING                                  *textobj-block-party-customizing*
 
 The short explanation to customizing vim-textobj-block-party is that its
 defaults are going to suit you well. But if you want to fine-tune things a
@@ -178,43 +176,43 @@ configurations for user settings.
 Default Configuration:
 
 >
-	import os
-														 		-+   -+
-														 		 |    |
-    # Some list of items 								 		 |    |
-    # Honestly it could say anything though. 			 		 |    |
-    # 													 		 |    |
-    items = ['foo', 'bar', 'end', 'start']               		 |    |
-													-+   -+   	 |    |
-													 |    |   	 |    |
-													 |    |   	 |    |
-    for item in items:                         -+    |    |   	 |    |
-        # Some information 						|    |    |   	 |    |
-        print('Item {}'.format(item))  			|    |    |   	 |    |
-												|    |    |   	 |    |
-        item += '.' 							|    |    |   	 |    |
-		> 										| ib | ab | Ab	 | aB | AB
-        if item == 'end.': 						|    |    |   	 |    |
-            break 								|    |    |   	 |    |
-												|    |    |   	 |    |
-    else: 										|    |    |   	 |    |
-        print('Break never executed')          -+   -+    |   	-+    |
-														  |           |
-														 -+          -+
-	more = 'code'
+    import os
+                                                                -+   -+
+                                                                 |    |
+    # Some list of items                                         |    |
+    # Honestly it could say anything though.                     |    |
+    #                                                            |    |
+    items = ['foo', 'bar', 'end', 'start']                       |    |
+                                                    -+   -+      |    |
+                                                     |    |      |    |
+                                                     |    |      |    |
+    for item in items:                         -+    |    |      |    |
+        # Some information                      |    |    |      |    |
+        print('Item {}'.format(item))           |    |    |      |    |
+                                                |    |    |      |    |
+        item += '.'                             |    |    |      |    |
+        >                                       | ib | ab | Ab   | aB | AB
+        if item == 'end.':                      |    |    |      |    |
+            break                               |    |    |      |    |
+                                                |    |    |      |    |
+    else:                                       |    |    |      |    |
+        print('Break never executed')          -+   -+    |     -+    |
+                                                          |           |
+                                                         -+          -+
+    more = 'code'
 
 Note:
-	i grabs the current block
-	a grabs the current block + the whitespace above it
-	A grabs the current block + the whitespace above and below it
-	B can grab source-code, additional whitespace, and/or comments
+    i grabs the current block
+    a grabs the current block + the whitespace above it
+    A grabs the current block + the whitespace above and below it
+    B can grab source-code, additional whitespace, and/or comments
 
 Note:
-	Capitalized letters grab more lines than their lowercase counterparts.
+    Capitalized letters grab more lines than their lowercase counterparts.
 
 
 ------------------------------------------------------------------------------
-SETTINGS 					 				  *textobj-block-party-settings*
+SETTINGS                                        *textobj-block-party-settings*
 
 If you're reading this section, it means that you want to change how the "ab",
 "aB", and "AB" mappings function.
@@ -222,15 +220,21 @@ If you're reading this section, it means that you want to change how the "ab",
 vim-textobj-block-party comes with a number of vim global variables that let
 you change how comments, newlines, and source-code is found.
 
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
-|               Variable               | Default |                                 Description                                 |
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
-| g:vim_block_party_include_comments   | '1'     | Look for comments above the current block                                   |
-| g:vim_block_party_include_whitespace | '1'     | Look for whitespace                                                         |
-| g:vim_block_party_search             | '1'     | Look source-code that's related to the current block                        |
-| g:vim_block_party_greedy             | '0'     | If 0, only search for source-code which is part of the block's definition.  |
-|                                      |         | If 1, check the block's contents for related source-code, too.              |
-+--------------------------------------+---------+-----------------------------------------------------------------------------+
++--------------------------------------+---------+-----------------------------+
+|               Variable               | Default |         Description         |
++--------------------------------------+---------+-----------------------------+
+| g:vim_block_party_include_comments   |   '1'   | Look for comments above     |
+|                                      |         | the current block           |
+|                                      |         |                             |
+| g:vim_block_party_include_whitespace |   '1'   | Look for whitespace         |
+|                                      |         |                             |
+| g:vim_block_party_search             |   '1'   | Look for source-code that's |
+|                                      |         | related to the block        |
+|                                      |         |                             |
+| g:vim_block_party_greedy             |   '0'   | If 0 search for source-code |
+|                                      |         | If 1 search the block's     |
+|                                      |         | contents for source-code    |
++--------------------------------------+---------+-----------------------------+
 
 The above 4 variables will define settings for every block type. However if
 you want to define a search setting for a particular type of Python block, all
@@ -240,31 +244,31 @@ The example below will include comments while searching in for-loops but not
 in while-loops. It also includes whitespace for every block-type (because no
 block-type was specified):
 >
-	let g:vim_block_party_while_include_comments = '0'
-	let g:vim_block_party_for_include_comments = '1'
-	let g:vim_block_party_include_whitespace = '1'
+    let g:vim_block_party_while_include_comments = '0'
+    let g:vim_block_party_for_include_comments = '1'
+    let g:vim_block_party_include_whitespace = '1'
 
 Available block types:
 >
-	for
-	if
-	try
-	while
+    for
+    if
+    try
+    while
 
 ------------------------------------------------------------------------------
-ADDING SOURCE CODE 					*textobj-block-party-adding-source-code*
+ADDING SOURCE CODE                    *textobj-block-party-adding-source-code*
 
 When searching for source-code is enabled, vim-textobj-block-party will look
-above the block for lines which relate to the current block. For example, if
-you define a list and then use it in a for-loop, the list is considered "part"
-of the block even though it's not actually inside the loop.
+above the current block for lines of source-code which relate to it. For example,
+if you define a list and then iterate over that list in a for-loop, the list is
+considered "part" of the block.
 
-But how we consider source-code "part" of a block can be changed, using the
-g:vim_block_party_greedy environment variable.
+You'll notice though that if you define or change a variable inside of a block
+that those lines are not considered part the block. But we can force it to be
+by enabling the g:vim_block_party_greedy environment variable.
 
-There's one last thing you should know about g:vim_block_party_greedy though.
-g:vim_block_party_greedy is set by default to off ("0") because it tends
-to grab more source-code than it should. But the option is there if you want it.
+g:vim_block_party_greedy is set to "0" by default because it tends to grab too
+more source-code than it should. But the option is there if you want it.
 
 let g:vim_block_party_greedy = '0'
 >
@@ -273,18 +277,18 @@ let g:vim_block_party_greedy = '0'
     #
     info = 'something'
     |items = ['foo', 'bar', 'end', 'start']
-	|
-	|
+    |
+    |
     |for item in items:
     |    # Some information
     |    print('Item {}'.format(item))
     |    info = 'asdfd'
-	|    >
+    |    >
     |    item += '.'
-	|
+    |
     |    if item == 'end.':
     |        break
-	|
+    |
     |else:
     |    print('Break never executed')
 
@@ -298,18 +302,18 @@ let g:vim_block_party_greedy = '1'
     |#
     |info = 'something'
     |items = ['foo', 'bar', 'end', 'start']
-	|
-	|
+    |
+    |
     |for item in items:
     |    # Some information
     |    print('Item {}'.format(item))
     |    info = 'asdfd'
-	|    >
+    |    >
     |    item += '.'
-	|
+    |
     |    if item == 'end.':
     |        break
-	|
+    |
     |else:
     |    print('Break never executed')
 
@@ -327,12 +331,12 @@ so when the source-code scanner encounters `info = 'something'`, it keeps going
 because `info = 'asdfd'` is inside of the block.
 
 Like mentioned before, this feature tends not to be used but it's there if you
-want it.
+want to enable it.
 
 
 ==============================================================================
-CHANGELOG				                   	*textobj-block-party-changelog*
+CHANGELOG                                      *textobj-block-party-changelog*
 
-1.0.0        2018-10-03	                    *textobj-indent-changelog-1.0.0*
+1.0.0        2018-10-03                       *textobj-indent-changelog-1.0.0*
              - Initial version.
 
