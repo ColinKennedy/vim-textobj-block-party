@@ -45,11 +45,13 @@ class Blocks(common.Common):
     def test_search_whitespace(self):
         '''Run a test with searching and whitespace allowed.'''
         config.register_setting(config.WHITESPACE_KEY, lambda: True)
+        config.register_setting(config.SEARCH_KEY, lambda: False)
 
         code = textwrap.dedent(
             '''\
             items = [x for x in whatever]
             |start|
+
 
             for index in items:
 
