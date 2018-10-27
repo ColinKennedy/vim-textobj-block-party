@@ -22,36 +22,6 @@ class General(common.Common):
         super(General, self).setUp()
         config.reset()
 
-    def test_greedy_search(self):
-        '''Find source-code which is defined within the Python block.'''
-        config.register_setting(config.COMMENT_KEY, lambda: True)
-        config.register_setting(config.GREEDY_KEY, lambda: True)
-        config.register_setting(config.SEARCH_KEY, lambda: True)
-        config.register_setting(config.WHITESPACE_KEY, lambda: True)
-
-        code = textwrap.dedent(
-            '''\
-
-            |start|# some comment
-            # more
-            #
-
-            whatever = 'asdfafsd'
-            another = ['asdf', 'ttt']
-
-            for item in another:
-                whatever = item
-
-                # more lines|cursor|
-
-                print('still going')
-            |end|
-            lastly = 'done'
-            '''
-        )
-
-        self.compare(code, two_way=True, extra_lines=False, search=True)
-
     def test_strict_search_001(self):
         '''Find source-code which is only defined at the block's definition.'''
         config.register_setting(config.COMMENT_KEY, lambda: True)
