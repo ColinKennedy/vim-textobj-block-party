@@ -26,6 +26,7 @@ class General(common.Common):
         '''Find source-code which is defined within the Python block.'''
         config.register_setting(config.COMMENT_KEY, lambda: True)
         config.register_setting(config.GREEDY_KEY, lambda: True)
+        config.register_setting(config.SEARCH_KEY, lambda: True)
         config.register_setting(config.WHITESPACE_KEY, lambda: True)
 
         code = textwrap.dedent(
@@ -165,43 +166,6 @@ class General(common.Common):
             |start|
 
             my_exceptions_list = (ValueError, TypeError)
-
-            try:
-                pass
-            except my_exceptions_list:
-                another = 'ttt'
-                pass|cursor|
-            else:
-                pass
-            |end|
-            lastly = 'done'
-            '''
-        )
-
-        self.compare(code, two_way=True, extra_lines=False, search=True)
-
-    def test_strict_search_002c(self):
-        '''Find source-code which is only defined at the block's definition.'''
-        config.register_setting(config.COMMENT_KEY, lambda: True)
-        config.register_setting(config.GREEDY_KEY, lambda: False)
-        config.register_setting(config.SEARCH_KEY, lambda: True)
-        config.register_setting(config.WHITESPACE_KEY, lambda: True)
-
-        code = textwrap.dedent(
-            '''\
-
-            whatever = 'asdfafsd'
-
-            # some comment
-            # more
-            #
-            another = 'asdf'
-            |start|
-
-            my_exceptions_list = (
-                ValueError,
-                TypeError,
-            )
 
             try:
                 pass

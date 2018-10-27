@@ -271,3 +271,52 @@ class TooManyLines(common.Common):
         )
 
         self.compare(code, extra_lines=False, two_way=True, search=True)
+
+
+class BadLines(common.Common):
+    def test_no_source_or_previous_node(self):
+        '''Find source-code which is defined within the Python block.'''
+        config.register_setting(config.COMMENT_KEY, lambda: True)
+        config.register_setting(config.GREEDY_KEY, lambda: True)
+        config.register_setting(config.SEARCH_KEY, lambda: True)
+        config.register_setting(config.WHITESPACE_KEY, lambda: True)
+
+        code = textwrap.dedent(
+            '''\
+
+            |start|# some comment
+            # more
+            #
+
+            for item in another:
+                whatever = item
+                |cursor|
+                # more lines
+
+                print('still going')
+            |end|
+            lastly = 'done'
+            '''
+        )
+
+        self.compare(code, two_way=True, extra_lines=False, search=True)
+
+    def test_previous_node(self):
+        '''Find source-code which is defined within the Python block.'''
+        config.register_setting(config.WHITESPACE_KEY, lambda: False)
+
+        code = textwrap.dedent(
+            '''\
+
+            |start|if False:
+
+                pass
+                |cursor|
+                # 'asdfasfdasdf'
+            else:
+                print('asfasdf')|end|
+
+            '''
+        )
+
+        self.compare(code, search=False)

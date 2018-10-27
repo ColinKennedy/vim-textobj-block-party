@@ -71,11 +71,11 @@ def _get_defined_identifiers(node):
     if hasattr(node, 'get_test_nodes'):  # It may be a IfStmnt
         names = set()
 
-        for node in node.get_test_nodes():
+        for node_ in node.get_test_nodes():
             try:
-                names.add(node.value)
+                names.add(node_.value)
             except AttributeError:
-                names.update(_get_node_identifiers(node, use_all=True))
+                names.update(_get_node_identifiers(node_, use_all=True))
 
         return names
 
@@ -213,8 +213,17 @@ def _get_previous_leaf_header(node):
     '''
     all_lines = node.get_root_node().get_code().split('\n')
     previous_nodes = list(_get_previous_non_block_nodes(node))
-    start = previous_nodes[-1].end_pos[0]
-    end = previous_nodes[0].start_pos[0]
+
+    try:
+        start = previous_nodes[-1].end_pos[0]
+    except IndexError:
+        start = 0
+
+    try:
+        end = previous_nodes[0].start_pos[0]
+    except IndexError:
+        end = len(all_lines)
+
     previous_lines = all_lines[start - 1:end]
     return previous_lines
 
