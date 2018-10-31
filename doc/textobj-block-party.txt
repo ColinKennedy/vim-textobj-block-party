@@ -116,7 +116,7 @@ These key mappings are defined in Visual mode and Operator-pending mode.
     source-code, and/or comments depending on your user settings.
     See |textobj-block-party-customizing| for more details.
 
-<Plug>(textobj-block-party-deep-a)      *<Plug>(textobj-block-party-deep-i)*
+<Plug>(textobj-block-party-deep-a)      *<Plug>(textobj-block-party-deep-a)*
     Like |<Plug>(textobj-block-party-deep-i)| but it searches for empty lines
     above the current block and includes them in the selection.
 
@@ -145,7 +145,7 @@ Most of the time, assuming your configuration is set how you like it, you'll
 probably want to type mappings like "vab", or "vaB". "ib"/"iB" are there just
 in case you don't want to grab too much text at once.
 
-For a visual on what all of these mappings look like, see: *textobj-block-party-customizing*
+For a visual on what all of these mappings look like, see: |textobj-block-party-customizing|
 
 
 ------------------------------------------------------------------------------
