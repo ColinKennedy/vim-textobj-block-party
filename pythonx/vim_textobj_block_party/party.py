@@ -41,6 +41,15 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
     '''
     lines = vim.current.window.buffer
     code = '\n'.join(lines)
+
+    if not code.endswith('\n'):
+        # Forcibly add a newline if there isn't one so that the last block
+        # doesn't edit at the wrong boundary
+        #
+        # Reference: https://github.com/ColinKennedy/vim-textobj-block-party/issues/3
+        #
+        code += '\n'
+
     row, column = vim.current.window.cursor
     row -= 1  # Get the current row, as a 0-based value
 
