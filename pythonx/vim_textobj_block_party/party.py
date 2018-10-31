@@ -45,7 +45,7 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
     row -= 1  # Get the current row, as a 0-based value
 
     previous_lines = reversed(lines[:row])
-    column = max(column, columnwise.find_best_column(previous_lines))
+    column = max(column, len(columnwise.find_best_indent(previous_lines)))
 
     boundary = party.get_boundary(
         code,

@@ -22,7 +22,7 @@ def _add_indent(text, indent=1):
     return text + ('    ' * indent)
 
 
-def find_best_column(lines):
+def find_best_indent(lines):
     '''Find the next line's indentation.
 
     If the next line is the start of Python block then the indentation is
