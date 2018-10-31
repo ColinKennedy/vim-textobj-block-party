@@ -389,7 +389,8 @@ def get_boundary(  # pylint: disable=too-many-arguments
 
         blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
 
-        if len(blocks) == 1:
+        block_row = blocks[0].start_pos[0]  # This is 1-based. `row` is 0-based
+        if block_row == row + 1:
             node = blocks[0]
         else:
             raise
