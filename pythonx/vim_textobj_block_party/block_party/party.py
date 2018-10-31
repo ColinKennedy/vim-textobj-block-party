@@ -379,7 +379,21 @@ def get_boundary(  # pylint: disable=too-many-arguments
 
 
     '''
-    node = get_nearest_class(code, row, column, classes)
+    try:
+        node = get_nearest_class(code, row, column, classes)
+    except ValueError:
+        # If the user has only a single block and their cursor is at the first
+        # line of the block then just select that block and use it
+        #
+        graph = parso.parse(code)
+
+        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
+
+        if len(blocks) == 1:
+            node = blocks[0]
+        else:
+            raise
+
     block = get_block_name(node)
 
     if not block or not node:
