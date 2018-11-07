@@ -1,13 +1,27 @@
+if !has('python') && !has('python3')
+    echoerr "vim-python-function-expander requires Python. Cannot continue loading this plugin"
+    finish
+endif
+
 if get(g:, 'block_party_loaded', '0') == '1'
     finish
 endif
 
 
+" Get a Python version to run with (Vim 8.0+ can just use `pythonx`)
+if get(g:, 'expander_python_version', '2') == '2' && has('python')
+   let g:_uspy=":python "
+elseif get(g:, 'expander_python_version', '3') == '3' && has('python3')
+   let g:_uspy=":python3 "
+else
+    echoerr "No matching Python version could be found"
+endif
+
+
 function! s:SetupBlockParty()
-pythonx << EOF
-from vim_textobj_block_party import environment
-environment.init()
-EOF
+    " from vim_textobj_block_party import environment
+    " environment.init()
+    execute g:_uspy "from vim_textobj_block_party import environment;environment.init()"
 endfunction
 
 
