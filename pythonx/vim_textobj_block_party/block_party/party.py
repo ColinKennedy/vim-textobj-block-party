@@ -18,9 +18,12 @@ try:
     from parso.python import tree
     import parso
 except ImportError:
-    # Use the provided parso library if the user doesn't have it installed.
-    from .vendors.parso.python import tree
-    from .vendors import parso
+    import sys
+    import os
+    from . import vendors
+    sys.path.append(os.path.dirname(vendors.__file__))
+    from parso.python import tree
+    import parso
 
 # IMPORT LOCAL LIBRARIES
 from . import config
