@@ -19,8 +19,6 @@ endif
 
 
 function! s:SetupBlockParty()
-    " from vim_textobj_block_party import environment
-    " environment.init()
     execute g:_uspy "from vim_textobj_block_party import environment;environment.init()"
 endfunction
 
