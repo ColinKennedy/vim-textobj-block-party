@@ -95,6 +95,7 @@ The full list of supported Python block types:
     if
     try
     while
+    with
 
 Note: If the Python file being operated upon has a SyntaxError then the file
 cannot be parsed and block selection will fail.

@@ -31,6 +31,7 @@ _ALL_BLOCK_CLASSES = (
     tree.IfStmt,
     tree.TryStmt,
     tree.WhileStmt,
+    tree.WithStmt,
 )
 _BUILTIN_WORDS = set(dir(builtins) + keyword.kwlist)
 _WORD_EXPRESSION = re.compile(r'\w+')
@@ -321,6 +322,7 @@ def get_block_name(node):
         tree.IfStmt: 'if',
         tree.TryStmt: 'try',
         tree.WhileStmt: 'while',
+        tree.WithStmt: 'with',
     }
 
     try:

@@ -35,6 +35,25 @@ class Blocks(common.Common):
 
         self.compare(code)
 
+    def test_with(self):
+        '''Test a with block.'''
+        code = textwrap.dedent(
+            '''\
+            something = 9
+
+            |start|with open('/tmp/something', 'w') as file_:
+                file_.write('asdfd')
+
+                |cursor|
+
+                more = 'stuff'|end|
+
+            and_more_lines = ['asdf']
+            '''
+        )
+
+        self.compare(code)
+
     def test_for(self):
         '''Test a for-loop.'''
         code = textwrap.dedent(

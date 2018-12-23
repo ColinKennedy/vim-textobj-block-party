@@ -254,6 +254,7 @@ Available block types:
     if
     try
     while
+    with
 
 ------------------------------------------------------------------------------
 ADDING SOURCE CODE                    *textobj-block-party-adding-source-code*
