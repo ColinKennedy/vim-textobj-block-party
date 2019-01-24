@@ -238,73 +238,6 @@ def _get_previous_non_block_nodes(node):
         previous = previous.get_previous_leaf()
 
 
-def get_leaf(graph, row, column):
-    '''Find the parso node that best matches the given row/column.
-
-    Args:
-        graph (:class:`parso.python.tree.Module`):
-            The parsed Python code.
-        row (int):
-            The line which will be used to find the "closest" leaf.
-            Any leaf whose starting line exceeds is value will be ignored.
-            This value is base-1.
-        column (int):
-            The column position of the cursor in `row`. This value is base-0.
-
-    Returns:
-        :class:`parso.python.tree.PythonBaseNode` or NoneType: The found node.
-
-    '''
-    leaf = graph.get_leaf_for_position((row, column))
-
-    if leaf:
-        return leaf
-
-    leaf = graph.get_first_leaf()
-    previous = leaf
-
-    while leaf:
-        if leaf.start_pos[0] >= row:
-            return previous
-
-        previous = leaf
-        leaf = leaf.get_next_leaf()
-
-
-def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
-    '''Get the parso node that is closet to a given row.
-
-    Args:
-        code (str):
-            The Python code to parse.
-        row (int):
-            The line which will be used to find the "closest" leaf.
-            Any leaf whose starting line exceeds is value will be ignored.
-            This value is base-0.
-        column (int):
-            The column position of the cursor in `row`. This value is base-0.
-        classes (class or tuple[class]):
-            The allowed parso types to search for.
-            If no node matching one of these class types are found,
-            None is returned instead. If no classes are given, the supported
-            parso classes are used instead.
-
-    Returns:
-        :class:`parso.python.tree.PythonBaseNode` or NoneType: The found node.
-
-    '''
-    graph = parso.parse(code)
-
-    leaf = get_leaf(graph, row, column)
-
-    parent = leaf
-    while parent:
-        if isinstance(parent, classes):
-            return parent
-
-        parent = parent.parent
-
-
 def get_block_name(node):
     '''Convert a parso node into a "block_party-friendly" block type.
 
@@ -409,6 +342,73 @@ def get_boundary(  # pylint: disable=too-many-arguments
         two_way=two_way,
         customize=customize,
     )
+
+
+def get_leaf(graph, row, column):
+    '''Find the parso node that best matches the given row/column.
+
+    Args:
+        graph (:class:`parso.python.tree.Module`):
+            The parsed Python code.
+        row (int):
+            The line which will be used to find the "closest" leaf.
+            Any leaf whose starting line exceeds is value will be ignored.
+            This value is base-1.
+        column (int):
+            The column position of the cursor in `row`. This value is base-0.
+
+    Returns:
+        :class:`parso.python.tree.PythonBaseNode` or NoneType: The found node.
+
+    '''
+    leaf = graph.get_leaf_for_position((row, column))
+
+    if leaf:
+        return leaf
+
+    leaf = graph.get_first_leaf()
+    previous = leaf
+
+    while leaf:
+        if leaf.start_pos[0] >= row:
+            return previous
+
+        previous = leaf
+        leaf = leaf.get_next_leaf()
+
+
+def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
+    '''Get the parso node that is closet to a given row.
+
+    Args:
+        code (str):
+            The Python code to parse.
+        row (int):
+            The line which will be used to find the "closest" leaf.
+            Any leaf whose starting line exceeds is value will be ignored.
+            This value is base-0.
+        column (int):
+            The column position of the cursor in `row`. This value is base-0.
+        classes (class or tuple[class]):
+            The allowed parso types to search for.
+            If no node matching one of these class types are found,
+            None is returned instead. If no classes are given, the supported
+            parso classes are used instead.
+
+    Returns:
+        :class:`parso.python.tree.PythonBaseNode` or NoneType: The found node.
+
+    '''
+    graph = parso.parse(code)
+
+    leaf = get_leaf(graph, row, column)
+
+    parent = leaf
+    while parent:
+        if isinstance(parent, classes):
+            return parent
+
+        parent = parent.parent
 
 
 def get_start(node, search=True, customize=True):
