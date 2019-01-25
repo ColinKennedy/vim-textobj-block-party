@@ -459,21 +459,43 @@ def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
     return get_nearest_parent_class(leaf, classes=classes)
 
 
+def _get_next_node(node, code, start, column, classes):
+    next_node = get_next_nearest_block(code, start)
+
+    try:
+        next_node, next_block = _get_node_block(code, start, column, classes)
+    except ValueError:
+        return (None, None)
+
+    if not next_node or not next_block:
+        return (None, None)
+
+    if next_node.get_code() == node.get_code():
+        return _get_next_node(node, code, start + 1, column, classes)
+
+    return (next_node, next_block)
+
+
+def get_next_nearest_block(code, row):
+    graph = parso.parse(code)
+    blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
+
+    for block in blocks:
+        block_row = block.start_pos[0]  # This is 1-based. `row` is 0-based
+        if block_row > row + 1:
+            return block
+
+
 def get_next_block(code, row, column):
     '''int: Find the line that begins the next block of Python code.'''
-    def get_next_nearest_block(code, row):
-        graph = parso.parse(code)
-        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
-
-        for block in blocks:
-            block_row = block.start_pos[0]  # This is 1-based. `row` is 0-based
-            if block_row > row + 1:
-                return block
-
     node, block = _get_node_block(code, row, column, _ALL_BLOCK_CLASSES)
 
     if not node:
         node = get_next_nearest_block(code, row)
+
+        if not node:
+            return -1
+
         return node.start_pos[0]
 
     if not block or not node:
@@ -482,16 +504,17 @@ def get_next_block(code, row, column):
     start = node.end_pos[0]
     start += 1
 
-    try:
-        next_node, next_block = _get_node_block(code, start, column, _ALL_BLOCK_CLASSES)
-    except ValueError:
-        next_node = None
-        next_block = None
-
-    line = node.get_code().split('\n')[1]
+    next_node, next_block = _get_next_node(node, code, start, column, _ALL_BLOCK_CLASSES)
 
     next_block_is_outer_scope = next_node \
         and _get_block_outer_indent(node) > _get_block_outer_indent(next_node)
+
+    next_block_is_inner_scope = next_node \
+        and _get_block_outer_indent(node) < _get_block_outer_indent(next_node)
+
+    if next_block_is_inner_scope:
+        real_next_node = get_next_nearest_block(code, next_node.end_pos[0])
+        return real_next_node.start_pos[0]
 
     if next_block_is_outer_scope or (not next_block or not next_node):
         parent = get_nearest_parent_class(node)
