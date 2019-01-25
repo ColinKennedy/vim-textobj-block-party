@@ -37,6 +37,17 @@ _BUILTIN_WORDS = set(dir(builtins) + keyword.kwlist)
 _WORD_EXPRESSION = re.compile(r'\w+')
 
 
+def _get_block_outer_indent(node):
+    '''int: The first-found indentation of the given parso node.'''
+    for line in node.get_code().split('\n'):
+        if not line.strip():
+            continue
+
+        return len(line) - len(line.lstrip())
+
+    return -1
+
+
 def _get_node_header(node):
     '''Get every line of the parso node that is a comment or whitespace.
 
@@ -171,6 +182,45 @@ def _get_nested_children(node, seen=None):
                 yield subchild
 
 
+def _get_node_block(code, row, column, classes):
+    '''Find the parso node at the given cursor position.
+
+    Args:
+        code (str):
+            The Python code to parse.
+        row (int):
+            The line which will be used to find the "closest" leaf.
+            Any leaf whose starting line exceeds is value will be ignored.
+            This value is base-0.
+        column (int):
+            The column position of the cursor in `row`. This value is base-0.
+
+    Returns:
+        tuple[:class:`parso.python.tree.PythonBaseNode`, str]:
+            The found block and the block's name.
+
+    '''
+    try:
+        node = get_nearest_class(code, row, column, classes)
+    except ValueError:
+        # If the user has only a single block and their cursor is at the first
+        # line of the block then just select that block and use it
+        #
+        graph = parso.parse(code)
+
+        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
+
+        block_row = blocks[0].start_pos[0]  # This is 1-based. `row` is 0-based
+        if block_row == row + 1:
+            node = blocks[0]
+        else:
+            raise
+
+    block = get_block_name(node)
+
+    return (node, block)
+
+
 def _get_node_identifiers(node, use_all=False):
     '''Find every identifier that `node` defines or uses.
 
@@ -236,6 +286,15 @@ def _get_previous_non_block_nodes(node):
     while previous and not isinstance(previous, _ALL_BLOCK_CLASSES):
         yield previous
         previous = previous.get_previous_leaf()
+
+
+def _iter_all_parents(node):
+    ''':class:`parso.python.tree.PythonBaseNode`: Get every parent of `node`.'''
+    parent = node
+
+    while parent:
+        parent = parent.parent
+        yield parent
 
 
 def get_block_name(node):
@@ -314,23 +373,7 @@ def get_boundary(  # pylint: disable=too-many-arguments
 
 
     '''
-    try:
-        node = get_nearest_class(code, row, column, classes)
-    except ValueError:
-        # If the user has only a single block and their cursor is at the first
-        # line of the block then just select that block and use it
-        #
-        graph = parso.parse(code)
-
-        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
-
-        block_row = blocks[0].start_pos[0]  # This is 1-based. `row` is 0-based
-        if block_row == row + 1:
-            node = blocks[0]
-        else:
-            raise
-
-    block = get_block_name(node)
+    node, block = _get_node_block(code, row, column, classes)
 
     if not block or not node:
         return (-1, -1)
@@ -377,6 +420,13 @@ def get_leaf(graph, row, column):
         leaf = leaf.get_next_leaf()
 
 
+def get_nearest_parent_class(node, classes=_ALL_BLOCK_CLASSES):
+    ''':class:`parso.python.tree.PythonBaseNode`: The node that surrounds `node`.'''
+    for parent in _iter_all_parents(node):
+        if isinstance(parent, classes):
+            return parent
+
+
 def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
     '''Get the parso node that is closet to a given row.
 
@@ -403,12 +453,41 @@ def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
 
     leaf = get_leaf(graph, row, column)
 
-    parent = leaf
-    while parent:
-        if isinstance(parent, classes):
-            return parent
+    return get_nearest_parent_class(leaf, classes=classes)
 
-        parent = parent.parent
+
+def get_next_block(code, row, column):
+    '''int: Find the line that begins the next block of Python code.'''
+    node, block = _get_node_block(code, row, column, _ALL_BLOCK_CLASSES)
+
+    if not block or not node:
+        return -1
+
+    start = node.end_pos[0]
+    start += 1
+
+    try:
+        next_node, next_block = _get_node_block(code, start, column, _ALL_BLOCK_CLASSES)
+    except ValueError:
+        next_node = None
+        next_block = None
+
+    line = node.get_code().split('\n')[1]
+
+    next_block_is_outer_scope = next_node \
+        and _get_block_outer_indent(node) > _get_block_outer_indent(next_node)
+
+    if next_block_is_outer_scope or (not next_block or not next_node):
+        parent = get_nearest_parent_class(node)
+
+        if not parent:
+            return node.start_pos[0]
+
+        return parent.start_pos[0]
+
+    next_row = next_node.start_pos[0]
+
+    return next_row
 
 
 def get_start(node, search=True, customize=True):

@@ -87,8 +87,35 @@ party.inside_shallow('l:block_party_temp_var')
 EOF
 
     if l:block_party_temp_var == []
+
         return 0
     endif
 
     return ['V', l:block_party_temp_var[0], l:block_party_temp_var[1]]
+endfunction
+
+
+function! vim_block_party#move_inside_shallow()
+    let l:block_party_temp_var = []
+
+pythonx << EOF
+from vim_textobj_block_party import party
+cursor = party.get_next_block()
+party.inside_shallow('l:block_party_temp_var', cursor=cursor, include_column=True)
+EOF
+
+    if len(l:block_party_temp_var) == 0
+        return 0
+    endif
+
+    let l:block_party_temp_var = [
+        \    l:block_party_temp_var[0][0],
+        \    l:block_party_temp_var[0][1] + 1,
+        \    l:block_party_temp_var[0][2],
+        \    l:block_party_temp_var[0][3],
+        \]
+
+    " echoerr string(['n', l:block_party_temp_var[0], l:block_party_temp_var[1]])
+    " return ['n', l:block_party_temp_var[0], l:block_party_temp_var[1]]
+    return ['n', l:block_party_temp_var, l:block_party_temp_var]
 endfunction

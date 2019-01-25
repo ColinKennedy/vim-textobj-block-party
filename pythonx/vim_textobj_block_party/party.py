@@ -11,7 +11,14 @@ from .block_party import party
 from . import columnwise
 
 
-def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize=True):
+def _get_buffer_context(
+        extra_lines=False,
+        search=True,
+        two_way=False,
+        customize=True,
+        cursor=None,
+        include_column=False,
+):
     '''Get the user's buffer and cursor and return a boundary.
 
     Args:
@@ -32,6 +39,9 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
             If True, the user's environment preferences will affect the returned boundary.
             If False, the boundary will disable all forms of searching (whitespace, comments, etc.)
             Default is True.
+        include_column (int, optional):
+            If True then the exact column number of the first non-whitespace
+            character is returned. Otherwise, just return 0. Default is False.
 
     Returns:
         list[list[int, int, int, int]]:
@@ -50,8 +60,11 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
         #
         code += '\n'
 
-    row, column = vim.current.window.cursor
-    row -= 1  # Get the current row, as a 0-based value
+    if cursor:
+        row, column = cursor
+    else:
+        row, column = vim.current.window.cursor
+        row -= 1  # Get the current row, as a 0-based value
 
     previous_lines = reversed(lines[:row])
     column = max(column, len(columnwise.find_best_indent(previous_lines)))
@@ -70,20 +83,40 @@ def _get_buffer_context(extra_lines=False, search=True, two_way=False, customize
     if boundary_was_not_found:
         return []
 
+    if not include_column:
+        column = 0
+    else:
+        column += 1
+
     return [
         [
             0,
             boundary[0] + 1,
-            0,
+            column,
             0,
         ],
         [
             1,
             boundary[1] + 1,
-            0,
+            column,
             0,
         ],
     ]
+
+
+def get_next_block():
+    '''tuple[int, int]: Find row and column of the next block of Python code.'''
+    row, column = vim.current.window.cursor
+    lines = vim.current.window.buffer
+    code = '\n'.join(lines)
+
+    next_row = party.get_next_block(code, row, column)
+    next_row += 1  # This moves to cursor directly the next block
+
+    previous_lines = reversed(lines[:next_row])
+    next_column = max(column, len(columnwise.find_best_indent(previous_lines)))
+
+    return (next_row, next_column)
 
 
 def around_deep(key, search=True, two_way=False):
@@ -142,7 +175,7 @@ def around_shallow(key, search=True, two_way=False):
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
 
 
-def inside_shallow(key, search=True):
+def inside_shallow(key, search=True, cursor=None, include_column=False):
     '''Search for a boundary before the block.
 
     Args:
@@ -152,7 +185,16 @@ def inside_shallow(key, search=True):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
             Default is True.
+        include_column (int, optional):
+            If True then the exact column number of the first non-whitespace
+            character is returned. Otherwise, just return 0. Default is False.
 
     '''
-    boundary = _get_buffer_context(search=search, customize=False)
+    boundary = _get_buffer_context(
+        search=search,
+        customize=False,
+        cursor=cursor,
+        include_column=include_column,
+    )
+
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))

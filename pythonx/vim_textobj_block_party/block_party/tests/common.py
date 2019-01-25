@@ -94,3 +94,29 @@ class Common(unittest.TestCase):
 
         self.assertEqual(start, boundary_start[0])
         self.assertEqual(end, boundary_end[0])
+
+    def compare_next(self, code):
+        '''Check if the code's start, end, and cursor positions are correct.
+
+        Raises:
+            RuntimeError: If no cursor could be found.
+            AssertionError: If the test fails.
+
+        '''
+        lines = code.split('\n')
+
+        (lines, boundary_start) = self._filter_marker(lines, self.start)
+        (lines, (cursor_row, cursor_column)) = self._filter_marker(lines, self.cursor)
+
+        if cursor_row == -1 or cursor_column == -1:
+            raise RuntimeError('Cursor could not be found.')
+
+        code = '\n'.join(lines)
+
+        start = party.get_next_block(
+            code,
+            cursor_row,
+            cursor_column,
+        )
+
+        self.assertEqual(start, boundary_start[0])
