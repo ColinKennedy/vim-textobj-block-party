@@ -362,3 +362,63 @@ class Bugs(common.Common):
         ''')
 
         self.compare_next(code)
+
+    # def test_next_block_with_no_lines(self):
+    #     code = textwrap.dedent(
+    #         '''
+    #         if encoding_enabled:
+    #             |cursor|LOGGER.info('Reader encoding "%s" will be applied to all lines', encoding)
+
+
+    #         for index, line in enumerate(self._get_reader_handle()):
+    #             |start|if clean and not line or all(not item for item in line):
+    #                 continue
+
+    #             if encoding_enabled:
+    #                 line = [item.decode(encoding) for item in line]
+
+    #             if _found_header:
+    #                 _add_line(line, lines)
+    #                 continue
+
+    #             if self._is_header(line):
+    #                 LOGGER.debug('Header found on line "%s"', index)
+    #                 _found_header = True
+
+    #                 if include_header:
+    #                     _add_line(line, lines)
+
+    #                 continue
+    #         ''')
+
+    #     self.compare_next(code)
+
+    def test_expand_with_no_lines(self):
+        code = textwrap.dedent(
+            '''
+            if encoding_enabled:
+                LOGGER.info('Reader encoding "%s" will be applied to all lines', encoding)
+
+
+            for index, line in enumerate(self._get_reader_handle()):
+                |start|if clean and not line or all(not item for item in line):
+                    continue
+
+                if encoding_enabled:
+                    line = [item.decode(encoding) for item in line]
+
+                if _found_header:
+                    _add_line(line, lines)
+                    continue
+
+                if self._is_header(line):
+                    LOGGER.debug('Header found on line "%s"', index)
+                    |cursor|_found_header = True
+
+                    if include_header:
+                        _add_line(line, lines)
+
+                    continue
+            ''')
+
+        self.compare_next(code)

@@ -200,20 +200,23 @@ def _get_node_block(code, row, column, classes):
             The found block and the block's name.
 
     '''
+    def get_exact_block(code, row):
+        graph = parso.parse(code)
+        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
+
+        block_row = blocks[0].start_pos[0]  # This is 1-based. `row` is 0-based
+        if block_row == row + 1:
+            return blocks[0]
+
     try:
         node = get_nearest_class(code, row, column, classes)
     except ValueError:
         # If the user has only a single block and their cursor is at the first
         # line of the block then just select that block and use it
         #
-        graph = parso.parse(code)
+        node = get_exact_block(code, row)
 
-        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
-
-        block_row = blocks[0].start_pos[0]  # This is 1-based. `row` is 0-based
-        if block_row == row + 1:
-            node = blocks[0]
-        else:
+        if not node:
             raise
 
     block = get_block_name(node)
@@ -458,7 +461,20 @@ def get_nearest_class(code, row, column, classes=_ALL_BLOCK_CLASSES):
 
 def get_next_block(code, row, column):
     '''int: Find the line that begins the next block of Python code.'''
+    def get_next_nearest_block(code, row):
+        graph = parso.parse(code)
+        blocks = [child for child in graph.children if isinstance(child, _ALL_BLOCK_CLASSES)]
+
+        for block in blocks:
+            block_row = block.start_pos[0]  # This is 1-based. `row` is 0-based
+            if block_row > row + 1:
+                return block
+
     node, block = _get_node_block(code, row, column, _ALL_BLOCK_CLASSES)
+
+    if not node:
+        node = get_next_nearest_block(code, row)
+        return node.start_pos[0]
 
     if not block or not node:
         return -1
