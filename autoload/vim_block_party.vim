@@ -101,7 +101,8 @@ function! vim_block_party#move_inside_shallow()
 pythonx << EOF
 from vim_textobj_block_party import party
 cursor = party.get_next_block()
-party.inside_shallow('l:block_party_temp_var', cursor=cursor, include_column=True)
+count = int(vim.eval('v:count1'))
+party.inside_shallow('l:block_party_temp_var', cursor=cursor, count=count, include_column=True)
 EOF
 
     if len(l:block_party_temp_var) == 0
@@ -115,7 +116,5 @@ EOF
         \    l:block_party_temp_var[0][3],
         \]
 
-    " echoerr string(['n', l:block_party_temp_var[0], l:block_party_temp_var[1]])
-    " return ['n', l:block_party_temp_var[0], l:block_party_temp_var[1]]
-    return ['n', l:block_party_temp_var, l:block_party_temp_var]
+    return ['V', l:block_party_temp_var, l:block_party_temp_var]
 endfunction

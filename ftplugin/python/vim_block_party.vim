@@ -25,8 +25,10 @@ call textobj#user#plugin('python', {
 \     'select-a': 'ab',
 \     'select-i-function': 'vim_block_party#inside_shallow',
 \     'select-i': 'ib',
-\     'move-n': 'gnb',
-\     'move-n-function': 'vim_block_party#move_inside_shallow',
+\   },
+\   'block-party-shallow-counted': {
+\     'select-i-function': 'vim_block_party#move_inside_shallow',
+\     'select-i': 'inb',
 \   },
 \   'block-party-two-way': {
 \     'select-a-function': 'vim_block_party#around_shallow_two_way',

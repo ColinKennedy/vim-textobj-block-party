@@ -175,7 +175,7 @@ def around_shallow(key, search=True, two_way=False):
     vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
 
 
-def inside_shallow(key, search=True, cursor=None, include_column=False):
+def inside_shallow(key, search=True, cursor=None, count=1, include_column=False):
     '''Search for a boundary before the block.
 
     Args:
@@ -185,16 +185,31 @@ def inside_shallow(key, search=True, cursor=None, include_column=False):
             If True, allow the user to search for code related to the block (if the setting is enabled).
             If False, do not affect any source-lines outside of the current block.
             Default is True.
+        count (int, optional):
+            The number of blocks ahead to search for. A value of 1 will get the
+            next block. 0 gets the current block. Default: 1.
         include_column (int, optional):
             If True then the exact column number of the first non-whitespace
             character is returned. Otherwise, just return 0. Default is False.
 
     '''
-    boundary = _get_buffer_context(
-        search=search,
-        customize=False,
-        cursor=cursor,
-        include_column=include_column,
-    )
+    if count < 0:
+        raise ValueError('Count cannot be less than zero.')
 
-    vim.command('let {key} = {boundary}'.format(key=key, boundary=boundary))
+    latest_boundary = []
+
+    for _ in range(count):
+        boundary = _get_buffer_context(
+            search=search,
+            customize=False,
+            cursor=cursor,
+            include_column=include_column,
+        )
+
+        if boundary:
+            latest_boundary = boundary
+            cursor = (boundary[0][1], boundary[0][2])
+            break
+
+    vim.command('let {key} = {latest_boundary}'.format(
+        key=key, latest_boundary=latest_boundary))
