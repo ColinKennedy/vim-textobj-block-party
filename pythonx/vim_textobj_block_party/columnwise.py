@@ -37,9 +37,7 @@ def find_best_indent(lines):
 
     '''
     for line in lines:
-        line = line.strip()
-
-        if not line:
+        if not line.strip():
             continue
 
         indent = _get_indent(line)
