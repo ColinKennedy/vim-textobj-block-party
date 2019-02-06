@@ -335,6 +335,7 @@ def get_boundary(  # pylint: disable=too-many-arguments
         search=True,
         two_way=False,
         customize=True,
+        count=1,
 ):
     '''Get the start and end row for the code block in some Python source code.
 
@@ -369,20 +370,39 @@ def get_boundary(  # pylint: disable=too-many-arguments
             If True, use the user's configuration while searching for extra lines.
             If False, ignore the user's configuration.
             Default is True.
+        count (int, optional):
+            The number of blocks to look ahead for. For example, you can skip
+            the next block and go to the block after by setting a value of 2.
+            Default: 1.
+
+    Raises:
+        ValueError: If `count` is an invalid number.
 
     Returns:
         tuple[int, int]:
             The found boundary. If no boundary was found, return back (-1, -1).
 
-
     '''
-    node, block = _get_node_block(code, row, column, classes)
+    if count < 1:
+        raise ValueError('Count cannot be less than 1')
 
-    if not block or not node:
+    latest_node = None
+    latest_block = ''
+    for _ in range(count):
+        node, block = _get_node_block(code, row, column, classes)
+
+        if not node or not block:
+            break
+
+        latest_node = node
+        latest_block = block
+        row = node.end_pos[0] + 1
+
+    if not latest_block or not latest_node:
         return (-1, -1)
 
     return get_expanded_boundary(
-        node,
+        latest_node,
         extra_lines=extra_lines,
         search=search,
         two_way=two_way,

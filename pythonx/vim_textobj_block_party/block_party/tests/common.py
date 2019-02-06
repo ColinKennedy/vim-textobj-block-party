@@ -47,7 +47,7 @@ class Common(unittest.TestCase):
 
         return (output_lines, (cursor_row, cursor_column))
 
-    def compare(self, code, extra_lines=False, two_way=False, search=False):
+    def compare(self, code, extra_lines=False, two_way=False, search=False, count=1):
         '''Check if the code's start, end, and cursor positions are correct.
 
         Args:
@@ -66,6 +66,10 @@ class Common(unittest.TestCase):
             search (`bool`, optional):
                 If True, search for source-code mentioned in the block.
                 If False, do not. Default is False.
+            count (int, optional):
+                The number of blocks to look ahead for. For example, you can skip
+                the next block and go to the block after by setting a value of 2.
+                Default: 1.
 
         Raises:
             RuntimeError: If no cursor could be found.
@@ -90,6 +94,7 @@ class Common(unittest.TestCase):
             extra_lines=extra_lines,
             search=search,
             two_way=two_way,
+            count=count,
         )
 
         self.assertEqual(start, boundary_start[0])

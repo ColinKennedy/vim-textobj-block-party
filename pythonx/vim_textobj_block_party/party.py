@@ -18,6 +18,7 @@ def _get_buffer_context(
         customize=True,
         cursor=None,
         include_column=False,
+        count=1,
 ):
     '''Get the user's buffer and cursor and return a boundary.
 
@@ -42,6 +43,9 @@ def _get_buffer_context(
         include_column (int, optional):
             If True then the exact column number of the first non-whitespace
             character is returned. Otherwise, just return 0. Default is False.
+        count (int, optional):
+            The number of blocks ahead to search for. A value of 1 will get the
+            next block. 1 gets the current block. Default: 1.
 
     Returns:
         list[list[int, int, int, int]]:
@@ -77,6 +81,7 @@ def _get_buffer_context(
         search=search,
         two_way=two_way,
         customize=customize,
+        count=count,
     )
 
     boundary_was_not_found = boundary == (-1, -1)
@@ -187,10 +192,13 @@ def inside_shallow(key, search=True, cursor=None, count=1, include_column=False)
             Default is True.
         count (int, optional):
             The number of blocks ahead to search for. A value of 1 will get the
-            next block. 0 gets the current block. Default: 1.
+            next block. 1 gets the current block. Default: 1.
         include_column (int, optional):
             If True then the exact column number of the first non-whitespace
             character is returned. Otherwise, just return 0. Default is False.
+
+    Raises:
+        ValueError: If `count` is not a valid number.
 
     '''
     if count < 0:
@@ -204,6 +212,7 @@ def inside_shallow(key, search=True, cursor=None, count=1, include_column=False)
             customize=False,
             cursor=cursor,
             include_column=include_column,
+            count=count,
         )
 
         if boundary:
