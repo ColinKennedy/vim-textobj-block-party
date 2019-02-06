@@ -117,7 +117,121 @@ class Next(common.Common):
         self.compare_next(code)
 
 
+class NextRange(common.Common):
+
+    '''A series of tests for skipping blocks to select other blocks.'''
+
+    def test_skip_1(self):
+        '''Skip the current block and move to the next block, instead.'''
+        code = textwrap.dedent(
+            '''
+            for index, line in enumerate(self._get_reader_handle()):
+                asdfasdfsdf = 'asdfsf'
+
+                if clean and not line or all(not item for item in line):
+                    |cursor|
+                    continue
+
+                |start|if encoding_enabled:
+                    line = [item.decode(encoding) for item in line]|end|
+
+                if _found_header:
+                    _add_line(line, lines)
+                    continue
+
+                if self._is_header(line):
+                    LOGGER.debug('Header found on line "%s"', index)
+                    _found_header = True
+
+                    if include_header:
+                        _add_line(line, lines)
+
+                    continue
+
+
+
+            if encoding_enabled:
+                LOGGER.info('Reader encoding "%s" will be applied to all lines', encoding)
+            ''')
+
+        self.compare(code, count=2)
+
+    def test_skip_2(self):
+        '''Skip the current block and move to the next two blocks, instead.'''
+        code = textwrap.dedent(
+            '''
+            for index, line in enumerate(self._get_reader_handle()):
+                asdfasdfsdf = 'asdfsf'
+
+                if clean and not line or all(not item for item in line):
+                    |cursor|
+                    continue
+
+                if encoding_enabled:
+                    line = [item.decode(encoding) for item in line]
+
+                |start|if _found_header:
+                    _add_line(line, lines)
+                    continue|end|
+
+                if self._is_header(line):
+                    LOGGER.debug('Header found on line "%s"', index)
+                    _found_header = True
+
+                    if include_header:
+                        _add_line(line, lines)
+
+                    continue
+
+
+
+            if encoding_enabled:
+                LOGGER.info('Reader encoding "%s" will be applied to all lines', encoding)
+            ''')
+
+        self.compare(code, count=3)
+
+    def test_skip_out_of_blocks(self):
+        '''Skip the current block and move to the next the last possible block.'''
+        code = textwrap.dedent(
+            '''
+            for index, line in enumerate(self._get_reader_handle()):
+                asdfasdfsdf = 'asdfsf'
+
+                if clean and not line or all(not item for item in line):
+                    |cursor|
+                    continue
+
+                if encoding_enabled:
+                    line = [item.decode(encoding) for item in line]
+
+                if _found_header:
+                    _add_line(line, lines)
+                    continue
+
+                |start|if self._is_header(line):
+                    LOGGER.debug('Header found on line "%s"', index)
+                    _found_header = True
+
+                    if include_header:
+                        _add_line(line, lines)
+
+                    continue|end|
+
+
+
+            if encoding_enabled:
+                LOGGER.info('Reader encoding "%s" will be applied to all lines', encoding)
+            ''')
+
+        # `count` is just some number greater than the number of blocks
+        self.compare(code, count=8)
+
+
 class Bugs(common.Common):
+
+    '''A series of tests to address bugs that were found in production.'''
+
     def test_start(self):
         code = textwrap.dedent(
             '''
