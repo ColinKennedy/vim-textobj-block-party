@@ -109,12 +109,5 @@ EOF
         return 0
     endif
 
-    let l:block_party_temp_var = [
-        \    l:block_party_temp_var[0][0],
-        \    l:block_party_temp_var[0][1] + 1,
-        \    l:block_party_temp_var[0][2],
-        \    l:block_party_temp_var[0][3],
-        \]
-
-    return ['V', l:block_party_temp_var, l:block_party_temp_var]
+    return ['V', l:block_party_temp_var[0], l:block_party_temp_var[1]]
 endfunction
