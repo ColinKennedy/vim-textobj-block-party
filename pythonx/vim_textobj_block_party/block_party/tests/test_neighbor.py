@@ -4,6 +4,9 @@
 # IMPORT STANDARD LIBRARIES
 import textwrap
 
+# IMPORT THIRD-PARTY LIBRARIES
+from block_party import config
+
 # IMPORT LOCAL LIBRARIES
 from . import common
 
@@ -120,6 +123,11 @@ class Next(common.Common):
 class NextRange(common.Common):
 
     '''A series of tests for skipping blocks to select other blocks.'''
+
+    def setUp(self):
+        '''Reset the user's config.'''
+        super(NextRange, self).setUp()
+        config.reset()
 
     def test_skip_1(self):
         '''Skip the current block and move to the next block, instead.'''

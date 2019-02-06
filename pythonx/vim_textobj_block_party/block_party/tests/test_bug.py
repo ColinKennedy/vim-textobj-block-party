@@ -22,6 +22,11 @@ class TooManyLines(common.Common):
         super(TooManyLines, self).setUp()
         config.reset()
 
+    def tearDown(self):
+        '''Reset the user's config after every test.'''
+        super(TooManyLines, self).tearDown()
+        config.reset()
+
     def test_case_001(self):
         '''Test that block_party does not grab the entire Python function.'''
         config.register_setting(config.COMMENT_KEY, lambda: True)

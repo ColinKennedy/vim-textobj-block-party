@@ -22,6 +22,11 @@ class General(common.Common):
         super(General, self).setUp()
         config.reset()
 
+    def tearDown(self):
+        '''Reset the user's config after every test.'''
+        super(General, self).tearDown()
+        config.reset()
+
     def test_strict_search_001(self):
         '''Find source-code which is only defined at the block's definition.'''
         config.register_setting(config.COMMENT_KEY, lambda: True)
@@ -268,6 +273,11 @@ class BlocksExtraLinesOn(common.Common):
         config.reset()
         config.register_setting(config.COMMENT_KEY, lambda: False)
         config.register_setting(config.WHITESPACE_KEY, lambda: False)
+
+    def tearDown(self):
+        '''Reset the user's config after every test.'''
+        super(BlocksExtraLinesOn, self).tearDown()
+        config.reset()
 
     def test_config_off_001(self):
         '''Check for newlines around a block.'''

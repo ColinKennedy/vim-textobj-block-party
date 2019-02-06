@@ -21,8 +21,6 @@ SETTINGS = {
     WHITESPACE_KEY: dict(),
 }
 
-_DEFAULT_SETTINGS = copy.deepcopy(SETTINGS)
-
 
 def _get_setting(key, block=_ALL_BLOCK):
     '''Get the setting for the given key and block.
@@ -165,6 +163,11 @@ def register_setting(key, function, override=False, block=_ALL_BLOCK):
 
 def reset():
     '''Remove all user settings and restore "default" configuration settings.'''
-    global SETTINGS  # pylint: disable=global-statement
+    SETTINGS.clear()
 
-    SETTINGS = _DEFAULT_SETTINGS
+    SETTINGS.update({
+        COMMENT_KEY: dict(),
+        GREEDY_KEY: dict(),
+        SEARCH_KEY: dict(),
+        WHITESPACE_KEY: dict(),
+    })

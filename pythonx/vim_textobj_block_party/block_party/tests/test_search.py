@@ -22,6 +22,11 @@ class Blocks(common.Common):
         super(Blocks, self).setUp()
         config.reset()
 
+    def tearDown(self):
+        '''Reset the user's config after every test.'''
+        super(Blocks, self).tearDown()
+        config.reset()
+
     def test_search_off(self):
         '''Run a test without searching.'''
         code = textwrap.dedent(
