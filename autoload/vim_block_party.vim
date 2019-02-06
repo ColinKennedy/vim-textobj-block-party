@@ -87,7 +87,6 @@ party.inside_shallow('l:block_party_temp_var')
 EOF
 
     if l:block_party_temp_var == []
-
         return 0
     endif
 
