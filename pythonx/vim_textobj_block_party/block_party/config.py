@@ -136,6 +136,10 @@ def allow_whitespace(block=_ALL_BLOCK):
     return _get_setting(WHITESPACE_KEY, block=block)
 
 
+def has_settings():
+    return bool(any(SETTINGS.values()))
+
+
 def register_setting(key, function, override=False, block=_ALL_BLOCK):
     '''Add the given configuration function for a block type.
 

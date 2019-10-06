@@ -77,12 +77,16 @@ def _include_search(block):
         return True
 
 
-def init():
+def init(once=True):
     '''Create all of the configuration settings for Vim.
 
     This function is what enables all of the global variables that Vim uses.
 
     '''
+    if once and config.has_settings():
+        # The environment was already initialized
+        return
+
     registry = {
         'comment': _include_comment,
         'greedy': _include_greedy,

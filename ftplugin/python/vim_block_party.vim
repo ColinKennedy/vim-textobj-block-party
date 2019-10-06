@@ -2,17 +2,6 @@ if get(g:, 'block_party_loaded', '0') == '1'
     finish
 endif
 
-
-function! s:SetupBlockParty()
-pythonx << EOF
-from vim_textobj_block_party import environment
-environment.init()
-EOF
-endfunction
-
-
-call s:SetupBlockParty()
-
 call textobj#user#plugin('python', {
 \   'block-party-deep': {
 \     'select-a-function': 'vim_block_party#around_deep',

@@ -1,4 +1,14 @@
+function! s:SetupBlockParty()
+pythonx << EOF
+from vim_textobj_block_party import environment
+environment.init()
+EOF
+endfunction
+
+
 function! vim_block_party#around_deep()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
@@ -15,6 +25,8 @@ endfunction
 
 
 function! vim_block_party#around_deep_two_way()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
@@ -31,6 +43,8 @@ endfunction
 
 
 function! vim_block_party#inside_deep()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
@@ -47,6 +61,8 @@ endfunction
 
 
 function! vim_block_party#around_shallow()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
@@ -63,6 +79,8 @@ endfunction
 
 
 function! vim_block_party#around_shallow_two_way()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
@@ -79,6 +97,8 @@ endfunction
 
 
 function! vim_block_party#inside_shallow()
+    call s:SetupBlockParty()
+
     let l:block_party_temp_var = []
 
 pythonx << EOF
